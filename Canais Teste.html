@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Marinho</title>
+    <style>
+        /* Estilos Globais e de Fundo Netflix-like */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinha o conteúdo ao topo */
+            min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte moderna */
+            background-color: #141414; /* Cor de fundo escura, padrão Netflix */
+            color: #e5e5e5; /* Cor do texto claro */
+        }
+
+        /* Estilo do Cabeçalho */
+        header {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            background-color: #000; /* Fundo preto sólido */
+            border-bottom: 1px solid #333; /* Borda sutil */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra para profundidade */
+            margin-bottom: 20px; /* Espaço entre o cabeçalho e o conteúdo */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em; /* Tamanho grande para o título */
+            color: #e50914; /* Cor vermelha vibrante, logo Netflix */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Sombra no texto */
+        }
+
+        /* Contêiner Principal de Vídeo e Seleção */
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* Espaçamento entre os selects e o iframe */
+            width: 95%; /* Ocupa a maior parte da largura */
+            max-width: 1200px; /* Limite de largura para telas muito grandes */
+        }
+
+        /* Contêiner das Listas Suspensas (Selects) */
+        .select-container {
+            display: flex;
+            justify-content: center; /* Centraliza as selects */
+            gap: 15px; /* Espaçamento entre as selects */
+            flex-wrap: wrap; /* Quebra linha em telas menores */
+            padding: 10px;
+            background-color: #222; /* Fundo escuro para a barra de seleção */
+            border-radius: 8px; /* Cantos arredondados */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+            width: 100%; /* Ocupa a largura total do video-container */
+            box-sizing: border-box; /* Inclui padding na largura */
+        }
+
+        /* Estilo para cada lista suspensa (select) */
+        select {
+            padding: 10px 15px;
+            font-size: 1em;
+            background-color: #333; /* Fundo mais escuro para o select */
+            color: #fff; /* Texto branco */
+            border: 1px solid #555; /* Borda suave */
+            border-radius: 5px; /* Cantos arredondados */
+            appearance: none; /* Remove a seta padrão do navegador */
+            -webkit-appearance: none; /* Para navegadores Webkit */
+            -moz-appearance: none; /* Para Firefox */
+            cursor: pointer; /* Indica que é clicável */
+            outline: none; /* Remove o contorno azul ao focar */
+            min-width: 150px; /* Largura mínima para os selects */
+            /* Adiciona uma seta customizada SVG para substituir a padrão */
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23e5e5e5" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        select:hover {
+            background-color: #444; /* Cor mais clara ao passar o mouse */
+        }
+
+        /* Estilo para as opções (dentro do select) */
+        select option {
+            background-color: #333; /* Fundo das opções */
+            color: #fff; /* Texto das opções */
+        }
+
+        /* Estilo do Iframe do Player */
+        iframe {
+            width: 100%; /* Ocupa a largura total do video-container */
+            aspect-ratio: 16 / 9; /* Mantém a proporção 16:9 para vídeos */
+            border: none; /* Remove a borda padrão do iframe */
+            background-color: #000; /* Fundo preto para o player (visível antes de carregar o stream) */
+            border-radius: 8px; /* Cantos arredondados */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra para profundidade */
+            /* Oculto por padrão até um canal ser selecionado via JavaScript */
+            display: none; /* Inicia escondido */
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em; /* Título menor em telas médias */
+            }
+            .select-container {
+                flex-direction: column; /* Coloca as selects em coluna em telas menores */
+                gap: 10px;
+                padding: 15px;
+            }
+            select {
+                width: 100%; /* Ocupa a largura total disponível */
+                min-width: unset; /* Remove a largura mínima para preencher */
+            }
+            .video-container {
+                width: 98%; /* Ocupa quase toda a largura em telas menores */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TV Marinho</h1>
+    </header>
+
+    <div class="video-container">
+        <div class="select-container">
+            <!-- 8 listas suspensas (selects) -->
+            <!-- Note que o onchange foi removido e será adicionado via JavaScript -->
+            <select id="videoList1">
+                <option value="" disabled selected>Canais Abertos</option>
+                <option value="https://embedtv-2.icu/globosp">Globo SP</option>
+                <option value="https://embedcanaistv.com/sbtsp/" allow="encrypted-media">SBT</option>
+                <option value="https://embedtv-2.icu/record">Record</option>
+                <option value="https://embedtv-2.icu/band">Band</option>
+                <option value="https://reidoscanais.pro/embed/?id=tvbrasil" allow="encrypted-media">TV Brasil</option>
+                <option value="https://reidoscanais.pro/embed/?id=redetv" allow="encrypted-media">Rede TV</option>
+                <option value="https://embedtv-2.icu/cultura">TV Cultura</option>
+
+            </select>
+            <select id="videoList2">
+                <option value="" disabled selected>Filmes</option>
+                <option value="https://embedtv-2.icu/telecinepremium">Telecine Premium</option>
+                <option value="https://embedtv-2.icu/telecinepipoca">Telecine Pipoca</option>
+                <option value="https://reidoscanais.tv/embed/?id=telecineaction" allow="encrypted-media">Telecine Action</option>
+                <option value="https://reidoscanais.tv/embed/?id=telecinetouch" allow="encrypted-media">Telecine Touch</option>
+                <option value="https://reidoscanais.tv/embed/?id=telecinefun" allow="encrypted-media">Telecine Fun</option>
+                <option value="https://reidoscanais.tv/embed/?id=telecinecult" allow="encrypted-media">Telecine Cult</option>
+                <option value="https://reidoscanais.tv/embed/?id=hbo" allow="encrypted-media">HBO</option>
+                <option value="https://reidoscanais.tv/embed/?id=hbo2" allow="encrypted-media">HBO 2</option>
+                <option value="https://reidoscanais.tv/embed/?id=hboplus" allow="encrypted-media">HBO Plus</option>
+                <option value="https://reidoscanais.tv/embed/?id=hbofamily" allow="encrypted-media">HBO Family</option>
+                <option value="https://reidoscanais.tv/embed/?id=hbosignature" allow="encrypted-media">HBO Signature</option>
+                <option value="https://reidoscanais.tv/embed/?id=hboxtreme" allow="encrypted-media">HBO Xtreme</option>
+                <option value="https://reidoscanais.tv/embed/?id=amc" allow="encrypted-media">AMC</option>
+                <option value="https://reidoscanais.tv/embed/?id=axn" allow="encrypted-media">AXN</option>
+                <option value="https://reidoscanais.tv/embed/?id=fx" allow="encrypted-media">FX</option>
+                <option value="https://reidoscanais.tv/embed/?id=megapix" allow="encrypted-media">Megapix</option>
+                <option value="https://reidoscanais.tv/embed/?id=studiouniversal" allow="encrypted-media">Studio Universal</option>
+                <option value="https://reidoscanais.tv/embed/?id=universaltv" allow="encrypted-media">Universal TV</option>
+                <option value="https://reidoscanais.tv/embed/?id=cinemax" allow="encrypted-media">Cinemax</option>
+                <option value="https://reidoscanais.tv/embed/?id=sonychannel" allow="encrypted-media">Sony Channel</option>
+                <option value="https://reidoscanais.tv/embed/?id=sonymovies" allow="encrypted-media">Sony Movies</option>
+                <option value="https://reidoscanais.tv/embed/?id=space" allow="encrypted-media">Space</option>
+                <option value="https://reidoscanais.tv/embed/?id=star_channel" allow="encrypted-media">Star Channel</option> <!-- Corrigido para Star Channel -->
+                <option value="https://reidoscanais.tv/embed/?id=warnertv" allow="encrypted-media">Warner TV</option>
+                <option value="https://reidoscanais.tv/embed/?id=tlc" allow="encrypted-media">TLC</option>
+                <option value="https://reidoscanais.tv/embed/?id=aee" allow="encrypted-media">A&E</option>
+                <option value="https://reidoscanais.tv/embed/?id=tnt" allow="encrypted-media">TNT</option>
+                <option value="https://reidoscanais.tv/embed/?id=tntnovelas" allow="encrypted-media">TNT Novelas</option>
+                <option value="https://reidoscanais.tv/embed/?id=tcm" allow="encrypted-media">TCM</option>
+            </select>
+            <select id="videoList3">
+                <option value="" disabled selected>Séries</option>
+                <option value="https://reidoscanais.tv/embed/?id=syfy" allow="encrypted-media">SyFy</option>
+                <option value="https://reidoscanais.tv/embed/?id=universal_channel" allow="encrypted-media">Universal Channel</option>
+                <option value="https://reidoscanais.tv/embed/?id=warner_channel" allow="encrypted-media">Warner Channel</option>
+                <option value="https://reidoscanais.tv/embed/?id=canal_brasil" allow="encrypted-media">Canal Brasil</option>
+            </select>
+            <select id="videoList4">
+                <option value="" disabled selected>Esporte</option>
+                <option value="https://reidoscanais.tv/embed/?id=espn" allow="encrypted-media">ESPN</option>
+                <option value="https://reidoscanais.tv/embed/?id=espn2" allow="encrypted-media">ESPN 2</option>
+                <option value="https://reidoscanais.tv/embed/?id=espn3" allow="encrypted-media">ESPN 3</option>
+                <option value="https://reidoscanais.tv/embed/?id=espn4" allow="encrypted-media">ESPN 4</option>
+                <option value="https://reidoscanais.tv/embed/?id=espn5" allow="encrypted-media">ESPN 5</option>
+                <option value="https://reidoscanais.tv/embed/?id=espn6" allow="encrypted-media">ESPN 6</option>
+                <option value="https://reidoscanais.tv/embed/?id=sportv" allow="encrypted-media">Sportv</option>
+                <option value="https://reidoscanais.tv/embed/?id=sportv2" allow="encrypted-media">Sportv 2</option>
+                <option value="https://reidoscanais.tv/embed/?id=sportv3" allow="encrypted-media">Sportv 3</option>
+                <option value="https://reidoscanais.tv/embed/?id=sportv4" allow="encrypted-media">Sportv 4</option>
+                <option value="https://reidoscanais.tv/embed/?id=sportvmosaico" allow="encrypted-media">Sportv Mosaico</option>
+                <option value="https://reidoscanais.tv/embed/?id=premiereclubes" allow="encrypted-media">Premiere Clubes</option>
+                <option value="https://reidoscanais.tv/embed/?id=premiere2" allow="encrypted-media">Premiere 2</option>
+                <option value="https://reidoscanais.tv/embed/?id=premiere3" allow="encrypted-media">Premiere 3</option>
+                <option value="https://reidoscanais.tv/embed/?id=premiere4" allow="encrypted-media">Premiere 4</option>
+            </select>
+            <select id="videoList5">
+                <option value="" disabled selected>Infantil</option>
+                <option value="https://reidoscanais.tv/embed/?id=discoverykids" allow="encrypted-media">Discovery Kids</option>
+                <option value="https://reidoscanais.tv/embed/?id=cartoonnetwork" allow="encrypted-media">Cartoon Network</option>
+                <option value="https://reidoscanais.tv/embed/?id=disneychannel" allow="encrypted-media">Disney Channel</option>
+                <option value="https://reidoscanais.tv/embed/?id=nickelodeon" allow="encrypted-media">Nickelodeon</option>
+                <option value="https://reidoscanais.tv/embed/?id=gloob" allow="encrypted-media">Gloob</option>
+            </select>
+            <select id="videoList6">
+                <option value="" disabled selected>Variedades</option>
+                <option value="https://reidoscanais.tv/embed/?id=multishow" allow="encrypted-media">Multishow</option>
+                <option value="https://reidoscanais.tv/embed/?id=gnt" allow="encrypted-media">GNT</option>
+                <option value="https://reidoscanais.tv/embed/?id=viva" allow="encrypted-media">Viva</option>
+                <option value="https://reidoscanais.tv/embed/?id=h&h" allow="encrypted-media">Home & Health</option>
+                <option value="https://reidoscanais.tv/embed/?id=off" allow="encrypted-media">Off</option>
+            </select>
+            <select id="videoList7">
+                <option value="" disabled selected>Documentários</option>
+                <option value="https://reidoscanais.tv/embed/?id=discoverychannel" allow="encrypted-media">Discovery Channel</option>
+                <option value="https://reidoscanais.tv/embed/?id=historychannel" allow="encrypted-media">History Channel</option>
+                <option value="https://reidoscanais.tv/embed/?id=natgeo" allow="encrypted-media">National Geographic</option>
+            </select>
+            <select id="videoList8">
+                <option value="" disabled selected>Notícias</option>
+                <option value="https://reidoscanais.tv/embed/?id=cnnbrasil" allow="encrypted-media">CNN Brasil</option>
+                <option value="https://reidoscanais.tv/embed/?id=globonews" allow="encrypted-media">GloboNews</option>
+                <option value="https://reidoscanais.tv/embed/?id=bandnews" allow="encrypted-media">BandNews TV</option>
+                <option value="https://reidoscanais.tv/embed/?id=jovempan" allow="encrypted-media">Jovem Pan News</option>
+            </select>
+        </div>
+        <!-- O iframe agora tem 'display: none' no CSS por padrão -->
+        <iframe id="videoPlayer" allow="encrypted-media; fullscreen" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        // Função para ordenar as opções de cada lista alfabeticamente
+        function sortSelectOptions(selectElement) {
+            const options = Array.from(selectElement.options);
+            
+            // Remove e guarda a primeira opção (disabled e selected)
+            const firstOption = options.shift(); 
+            
+            // Ordena as opções restantes por texto em português
+            options.sort((a, b) => a.text.localeCompare(b.text, 'pt-BR', { sensitivity: 'base' })); 
+
+            // Limpa o select e adiciona as opções na ordem correta
+            selectElement.innerHTML = ''; // Limpa todas as opções existentes
+            selectElement.appendChild(firstOption); // Adiciona a primeira opção de volta
+            options.forEach(option => selectElement.appendChild(option)); // Adiciona as opções ordenadas
+        }
+
+        // Função para tocar o vídeo
+        // Agora recebe o elemento select que foi alterado como argumento
+        function playVideo(selectElement) { 
+            const selectedUrl = selectElement.value; // Obtém o valor (URL) da opção selecionada
+
+            if (selectedUrl) {
+                // Se uma URL válida foi selecionada, torna o player visível e carrega o vídeo
+                videoPlayer.style.display = 'block'; // Mostra o iframe
+                videoPlayer.src = selectedUrl; // Define a URL do stream
+                // Nota: A reprodução automática dependerá das políticas do navegador
+                // e do próprio player dentro do iframe. Este código não a força.
+            } else {
+                // Se a opção selecionada for a desabilitada (placeholder vazia), esconde o player
+                videoPlayer.style.display = 'none'; // Esconde o iframe
+                videoPlayer.src = ''; // Limpa o src do iframe para parar qualquer stream
+            }
+        }
+
+        // Garante que o script só execute após o DOM estar completamente carregado
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoLists = document.querySelectorAll('select');
+            
+            // Itera sobre cada elemento <select>
+            videoLists.forEach(select => {
+                sortSelectOptions(select); // Ordena as opções de cada lista ao carregar
+                // Adiciona um listener para o evento 'change' (quando uma opção é selecionada)
+                select.addEventListener('change', () => playVideo(select)); 
+            });
+
+            // No carregamento inicial, garante que o player esteja escondido
+            // (O CSS já faz isso, mas é uma boa prática reforçar no JS)
+            videoPlayer.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
