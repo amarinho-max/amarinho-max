@@ -4,15 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TV Marinho</title>
+  <!-- Favicon placeholder if needed -->
+  <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
   <style>
+    /* CSS Variables for easy theming */
+    :root {
+      --bg-dark: #141414;
+      --nav-bg: #222222;
+      --text-light: #e5e5e5;
+      --accent-red: #e50914;
+      --border-color: #333;
+      --shadow-color: rgba(0, 0, 0, 0.7);
+      --highlight-shadow: rgba(229, 9, 20, 0.6);
+      --select-bg: #333;
+      --select-hover-bg: #555;
+    }
+
     /* Corpo e geral */
     body {
       margin: 0;
-      background-color: #141414;
-      color: #e5e5e5;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden; /* Prevent horizontal scroll */
     }
 
     /* Container geral: barra fixa + conteúdo */
@@ -27,104 +43,191 @@
       top: 0;
       left: 0;
       height: 100vh;         /* altura total da tela */
-      width: 220px;          /* largura fixa da barra */
-      background-color: #222;
+      width: 280px;          /* largura fixa da barra (aumentado para mais espaço) */
+      background-color: var(--nav-bg);
       padding: 20px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 18px; /* Aumentado um pouco o espaço entre os selects */
       overflow-y: auto;      /* permite scroll interno */
-      border-right: 1px solid #333;
+      border-right: 1px solid var(--border-color);
       z-index: 1000;         /* fica sobre outros elementos */
+      transition: width 0.3s ease; /* Transição suave para responsividade */
     }
 
     /* Conteúdo principal — empurrado para direita para não ficar atrás da barra fixa */
     .main-container {
-      margin-left: 220px;    /* mesmo valor da largura da barra fixa */
+      margin-left: 280px;    /* mesmo valor da largura da barra fixa */
       flex: 1;
-      padding: 20px;
+      padding: 30px; /* Aumentado o padding */
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;   /* centraliza player e grade */
-      gap: 20px;
-      background-color: #141414;
+      gap: 30px; /* Aumentado o gap */
+      background-color: var(--bg-dark);
       min-height: 100vh;
       overflow-y: auto;
+      width: calc(100% - 280px); /* Garante que ocupe o restante da largura */
     }
 
     /* Estilo dos selects no menu lateral */
     select {
-      background-color: #333;
-      color: #fff;
+      background-color: var(--select-bg);
+      color: var(--text-light);
       border: none;
-      border-radius: 6px;
-      padding: 12px 18px;
+      border-radius: 8px; /* Mais arredondado */
+      padding: 14px 20px; /* Mais preenchimento */
       font-size: 1em;
       cursor: pointer;
       width: 100%;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
+      box-shadow: inset 0 0 8px var(--shadow-color); /* Sombra mais profunda */
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23e5e5e5" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
       background-repeat: no-repeat;
-      background-position: right 15px center;
-      background-size: 16px;
+      background-position: right 18px center; /* Seta um pouco maior e mais distante */
+      background-size: 18px;
       font-weight: 600;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      outline: none; /* Remove o contorno padrão */
     }
 
-    select:hover, select:focus {
-      background-color: #555;
-      outline: none;
+    select:hover {
+      background-color: var(--select-hover-bg);
+    }
+
+    select:focus {
+      box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.4); /* Anel de foco */
     }
 
     option {
-      background-color: #333;
-      color: #fff;
+      background-color: var(--select-bg);
+      color: var(--text-light);
+      padding: 10px; /* Adiciona preenchimento às opções */
     }
 
-    /* Título */
-    header {
+    /* Título principal */
+    .main-header {
       width: 100%;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px; /* Margem ajustada */
     }
 
-    header h1 {
+    .main-header h1 {
       margin: 0;
-      font-size: 2.5em;
-      color: #e50914;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      font-size: 3.2em; /* Título maior */
+      color: var(--accent-red);
+      text-shadow: 0 0 15px rgba(229, 9, 20, 0.8), 0 0 5px rgba(0, 0, 0, 0.9); /* Efeito de brilho aprimorado */
       font-weight: 900;
-      letter-spacing: 2px;
+      letter-spacing: 3px; /* Espaçamento de letras maior */
+      text-transform: uppercase;
     }
 
     /* Player de vídeo */
-    iframe#videoPlayer {
-      width: 80%;
+    .player-container {
+      position: relative;
+      width: 80%; /* Ligeiramente mais largo */
       aspect-ratio: 16 / 9;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 6px 30px rgba(229, 9, 20, 0.6);
       background-color: #000;
-      display: none;
-      transition: opacity 0.3s ease;
+      border-radius: 15px; /* Cantos mais arredondados */
+      box-shadow: 0 8px 40px var(--highlight-shadow); /* Sombra mais proeminente */
+      overflow: hidden; /* Garante que o conteúdo respeite o border-radius */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease;
+    }
+
+    iframe#videoPlayer {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none; /* Escondido por padrão, mostrado por JS */
+      background-color: #000; /* Fallback */
+    }
+
+    /* Mensagem de nenhum vídeo selecionado */
+    .no-video-message {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 1.5em;
+      font-weight: 500;
+      padding: 20px;
+    }
+
+    .no-video-message span {
+        display: block;
+        font-size: 0.8em;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 10px;
+    }
+
+    /* Loading spinner */
+    .loader {
+      border: 6px solid rgba(255, 255, 255, 0.3);
+      border-top: 6px solid var(--accent-red);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      display: none; /* Escondido por padrão */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     /* Grade de programação */
     iframe#gradeIframe {
-      width: 80%;
-      height: 400px;
+      width: 80%; /* Igual à largura do player */
+      height: 500px; /* Altura aumentada */
       border: none;
-      border-radius: 12px;
+      border-radius: 15px;
       background-color: #000;
-      box-shadow: 0 6px 30px rgba(229, 9, 20, 0.6);
+      box-shadow: 0 8px 40px var(--highlight-shadow);
+      transition: box-shadow 0.3s ease;
+    }
+
+    /* Estilização da Barra de Rolagem (navegadores Webkit) */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--nav-bg);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--select-hover-bg);
+      border-radius: 10px;
+      border: 2px solid var(--nav-bg);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-red);
     }
 
     /* Responsividade */
+    @media (max-width: 992px) { /* Ajuste para telas um pouco maiores */
+      .main-header h1 {
+        font-size: 2.8em;
+      }
+      .player-container, iframe#gradeIframe {
+        width: 95%; /* Ajusta a largura para telas um pouco menores */
+      }
+    }
+
     @media (max-width: 768px) {
       body {
         flex-direction: column;
@@ -133,43 +236,84 @@
         flex-direction: column;
       }
       nav {
-        position: relative;  /* deixa a barra normal no topo */
+        position: relative;  /* a barra se torna parte do fluxo normal */
         width: 100%;
         height: auto;
-        flex-direction: row;
-        overflow-x: auto;
+        flex-direction: row; /* itens da nav ficam lado a lado */
+        overflow-x: auto; /* permite rolagem horizontal para os selects */
         padding: 10px;
         border-right: none;
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid var(--border-color);
+        gap: 10px; /* Reduz o gap entre os selects */
+        white-space: nowrap; /* Impede que os selects quebrem linha */
+        justify-content: flex-start; /* Alinha selects ao início */
       }
-      select {
-        width: auto;
-        min-width: 150px;
-        margin-right: 10px;
+
+      nav select {
+        flex-shrink: 0; /* Impede que os selects diminuam muito */
+        width: auto; /* Largura automática para se adaptar ao conteúdo */
+        min-width: 160px; /* Largura mínima para selects */
+        padding: 10px 15px; /* Padding menor */
+        font-size: 0.9em;
+        border-radius: 6px;
       }
+
+      nav select:not(:last-child) {
+        margin-right: 10px; /* Espaço entre os selects */
+      }
+
       .main-container {
         margin-left: 0;     /* remove margem lateral no mobile */
-        padding: 10px;
+        padding: 20px 15px; /* Padding ajustado para mobile */
         min-height: auto;
+        width: 100%; /* Ocupa a largura total */
+      }
+      .main-header h1 {
+        font-size: 2.2em;
+        letter-spacing: 2px;
+      }
+      .player-container, iframe#gradeIframe {
+        width: 100%; /* Largura total para mobile */
+        box-shadow: 0 4px 20px var(--highlight-shadow); /* Sombra menos intensa */
       }
       iframe#gradeIframe {
-        height: 300px;
+        height: 350px; /* Altura ajustada */
       }
+    }
+
+    @media (max-width: 480px) {
+        .main-header h1 {
+            font-size: 1.8em;
+            letter-spacing: 1px;
+        }
+        .no-video-message {
+            font-size: 1.2em;
+        }
+        .loader {
+            width: 40px;
+            height: 40px;
+            border-width: 5px;
+        }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <nav>
+      <!-- Mantendo a estrutura original dos selects -->
       <select id="videoList1">
         <option value="" disabled selected>Canais Abertos</option>
         <option value="https://embedtv-2.icu/globosp" data-grade="https://meuguia.tv/programacao/canal/GRD">Globo SP</option>
-        <option value="https://reidoscanais.pro/embed/?id=sbt" data-grade="https://meuguia.tv/programacao/canal/SBT">SBT</option>
+		<option value="https://reidoscanais.life/embed/?id=globosp-globosaopaulo" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/GRD">Globo SP 2</option>
+        <option value="https://embedtv-2.icu/sbt" data-grade="https://meuguia.tv/programacao/canal/SBT">SBT</option>
+		<option value="https://reidoscanais.life/embed/?id=sbt" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/SBT">SBT 2</option>
         <option value="https://embedtv-2.icu/record" data-grade="https://meuguia.tv/programacao/canal/REC">Record</option>
-        <option value="https://reidoscanais.pro/embed/?id=band" data-grade="https://meuguia.tv/programacao/canal/BAN">Band</option>
-        <option value="https://reidoscanais.pro/embed/?id=tvbrasil" data-grade="https://meuguia.tv/programacao/canal/TED">TV Brasil</option>
-        <option value="https://reidoscanais.pro/embed/?id=redetv" data-grade="https://meuguia.tv/programacao/canal/RTV">Rede TV</option>
-        <option value="https://reidoscanais.pro/embed/?id=tvcultura" data-grade="https://meuguia.tv/programacao/canal/CUL">TV Cultura</option>
+		<option value="https://reidoscanais.life/embed/?id=record" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/REC">Record 2</option>
+        <option value="https://embedtv-2.icu/band" data-grade="https://meuguia.tv/programacao/canal/BAN">Band</option>
+		<option value="https://reidoscanais.life/embed/?id=band" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/BAN">Band 2</option>
+		<option value="https://reidoscanais.life/embed/?id=tvbrasil" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/TED">TV Brasil</option>
+        <option value="https://reidoscanais.life/embed/?id=redetv" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/RTV">Rede TV</option>
+        <option value="https://reidoscanais.life/embed/?id=tvcultura" allow="encrypted-media" data-grade="https://meuguia.tv/programacao/canal/CUL">TV Cultura</option>
       </select>
       <select id="videoList2">
         <option value="" disabled selected>Filmes</option>
@@ -248,11 +392,18 @@
     </nav>
 
     <main class="main-container">
-      <header>
+      <header class="main-header">
         <h1>TV Marinho</h1>
       </header>
 
-      <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; fullscreen" scrolling="no"></iframe>
+      <div class="player-container">
+        <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; fullscreen" scrolling="no"></iframe>
+        <div class="loader" id="playerLoader"></div>
+        <div class="no-video-message" id="noVideoMessage">
+            Bem-vindo à TV Marinho! <br>
+            <span>Selecione um canal para começar a assistir.</span>
+        </div>
+      </div>
 
       <iframe id="gradeIframe" src=""></iframe>
     </main>
@@ -262,36 +413,88 @@
     const selects = document.querySelectorAll('nav select');
     const videoPlayer = document.getElementById('videoPlayer');
     const gradeIframe = document.getElementById('gradeIframe');
+    const playerLoader = document.getElementById('playerLoader');
+    const noVideoMessage = document.getElementById('noVideoMessage');
+
+    let currentGradeRefreshInterval = null; // To manage the interval for grade refresh
+
+    function showLoader() {
+        playerLoader.style.display = 'block';
+        videoPlayer.style.display = 'none';
+        noVideoMessage.style.display = 'none';
+    }
+
+    function hideLoader() {
+        playerLoader.style.display = 'none';
+        videoPlayer.style.display = 'block';
+        noVideoMessage.style.display = 'none';
+    }
+
+    function showNoVideoMessage() {
+        videoPlayer.style.display = 'none';
+        playerLoader.style.display = 'none';
+        noVideoMessage.style.display = 'block';
+        gradeIframe.src = ''; // Clear grade when no video is selected
+        if (currentGradeRefreshInterval) {
+            clearInterval(currentGradeRefreshInterval);
+            currentGradeRefreshInterval = null; // Reset the interval handle
+        }
+    }
 
     selects.forEach(select => {
-      select.addEventListener('change', () => {
-        const selectedOption = select.options[select.selectedIndex];
+      select.addEventListener('change', (event) => {
+        // Deselect all other selects
+        selects.forEach(s => {
+          if (s !== event.target) {
+            s.value = ""; // Reset other selects to their default "disabled selected" option
+          }
+        });
+
+        const selectedOption = event.target.options[event.target.selectedIndex];
         const videoUrl = selectedOption.value;
         const gradeUrl = selectedOption.getAttribute('data-grade');
 
         if (videoUrl) {
+          showLoader();
           videoPlayer.src = videoUrl;
-          videoPlayer.style.display = 'block';
+          videoPlayer.onload = () => {
+            hideLoader();
+          };
+          videoPlayer.onerror = () => {
+            hideLoader();
+            alert('Não foi possível carregar o vídeo. Tente outro canal.');
+            showNoVideoMessage();
+          };
         } else {
-          videoPlayer.src = '';
-          videoPlayer.style.display = 'none';
+          showNoVideoMessage();
         }
 
         if (gradeUrl) {
           gradeIframe.src = gradeUrl;
+          // Clear any existing interval before setting a new one
+          if (currentGradeRefreshInterval) {
+            clearInterval(currentGradeRefreshInterval);
+            currentGradeRefreshInterval = null;
+          }
+          // Set new interval for the current grade
+          currentGradeRefreshInterval = setInterval(() => {
+            console.log('Refreshing grade for:', selectedOption.textContent);
+            gradeIframe.src = gradeUrl; // Re-load the grade iframe
+          }, 300000); // Refresh every 5 minutes
         } else {
           gradeIframe.src = '';
+          if (currentGradeRefreshInterval) {
+            clearInterval(currentGradeRefreshInterval);
+            currentGradeRefreshInterval = null;
+          }
         }
       });
     });
 
-    // Atualiza a grade a cada 5 minutos (300000 ms)
-    setInterval(() => {
-      const currentGradeSrc = gradeIframe.src;
-      if (currentGradeSrc) {
-        gradeIframe.src = currentGradeSrc;
-      }
-    }, 300000);
+    // Initial state: show no video message and clear iframes
+    document.addEventListener('DOMContentLoaded', () => {
+        showNoVideoMessage();
+    });
   </script>
 </body>
 </html>
