@@ -74,7 +74,7 @@
       transition: width 0.3s ease;
     }
 
-    /* Logo Placeholder */
+    /* Logo Placeholder / Home Button */
     .logo-placeholder {
       font-size: 2.5em;
       font-weight: 900;
@@ -83,7 +83,15 @@
       margin-bottom: 30px;
       text-shadow: 0 0 10px rgba(224, 59, 69, 0.6);
       padding-top: 10px;
+      cursor: pointer; /* Makes it look clickable */
+      transition: text-shadow 0.3s ease, transform 0.2s ease;
     }
+
+    .logo-placeholder:hover {
+        text-shadow: 0 0 15px var(--accent-red), 0 0 10px rgba(0, 0, 0, 0.9);
+        transform: translateY(-2px);
+    }
+
 
     /* Search Container */
     .search-container {
@@ -586,7 +594,7 @@
 <body>
   <div class="container">
     <nav>
-      <div class="logo-placeholder">TV Marinho</div>
+      <div class="logo-placeholder" id="homeButton">TV Marinho</div>
 
       <!-- Search Input -->
       <div class="search-container">
@@ -1139,6 +1147,7 @@
 
   <script>
     // Referências a todos os elementos
+    const homeButton = document.getElementById('homeButton'); // Novo ID para o botão HOME
     const searchInput = document.getElementById('searchInput');
     const categoryHeaders = document.querySelectorAll('.category-header');
     const allChannelItems = document.querySelectorAll('.channel-item'); // All channel items in static HTML
@@ -1201,6 +1210,7 @@
             const selectedItem = document.querySelector(`[data-unique-id="${uniqueId}"]`);
             if (selectedItem) {
                 const parentCategory = selectedItem.closest('.category-item');
+                // Ensure the parent category is expanded when a channel becomes active
                 if (parentCategory && !parentCategory.classList.contains('expanded')) {
                     toggleCategory(parentCategory, true); // Force expand the category
                 }
@@ -1211,10 +1221,11 @@
 
     // --- Gerenciamento da Visibilidade do Conteúdo (Canais de TV vs WarezCDN) ---
     function showTvChannelsContent(videoUrl, gradeUrl, uniqueId) {
+        // Hide all content views first
         document.querySelectorAll('.content-view').forEach(view => {
             view.style.display = 'none';
         });
-        tvChannelsView.style.display = 'flex';
+        tvChannelsView.style.display = 'flex'; // Show TV channels view
 
         if (videoUrl) {
             showPlayerLoader();
@@ -1246,15 +1257,18 @@
                 currentGradeRefreshInterval = null;
             }
         }
-        setActiveChannel(uniqueId);
-        resetSearchAndCollapseCategories(); // Reset search and collapse categories after selection
+        
+        // IMPORTANT: Reset search and collapse categories AFTER player/view is ready
+        resetSearchAndCollapseCategories(); 
+        setActiveChannel(uniqueId); // Set active *after* categories are reset/collapsed
     }
 
     function showWarezCdnContent(url, uniqueId = 'warezcdn-access') {
+        // Hide all content views first
         document.querySelectorAll('.content-view').forEach(view => {
             view.style.display = 'none';
         });
-        warezCdnView.style.display = 'flex';
+        warezCdnView.style.display = 'flex'; // Show WarezCDN view
 
         warezCdnLoader.style.display = 'block';
         warezCdnContentIframe.style.display = 'none';
@@ -1290,8 +1304,10 @@
             clearInterval(currentGradeRefreshInterval);
             currentGradeRefreshInterval = null;
         }
-        setActiveChannel(uniqueId);
-        resetSearchAndCollapseCategories(); // Reset search and collapse categories after selection
+        
+        // IMPORTANT: Reset search and collapse categories AFTER player/view is ready
+        resetSearchAndCollapseCategories();
+        setActiveChannel(uniqueId); // Set active *after* categories are reset/collapsed
     }
 
     // --- Favorites Management ---
@@ -1350,6 +1366,9 @@
         if (favorites.length === 0) {
             noFavoritesMessage.style.display = 'flex';
             favoritesList.appendChild(noFavoritesMessage);
+            // If no favorites, ensure favorites category is collapsed
+            favoritesCategory.classList.remove('expanded');
+            favoritesList.style.maxHeight = 0;
         } else {
             noFavoritesMessage.style.display = 'none';
             favorites.forEach(fav => {
@@ -1381,11 +1400,13 @@
                 });
                 favoritesList.appendChild(li);
             });
+            // If favorites exist, ensure favorites category is expanded
+            favoritesCategory.classList.add('expanded');
+            favoritesList.style.maxHeight = favoritesList.scrollHeight + 'px';
         }
         if (activeChannelUniqueId) {
             setActiveChannel(activeChannelUniqueId);
         }
-        // Favorites category will only expand if explicitly opened or by resetSearchAndCollapseCategories
     }
 
     // --- Event Listeners Initialization ---
@@ -1394,18 +1415,21 @@
         const channelList = categoryItem.querySelector('.channel-list');
         const isExpanded = categoryItem.classList.contains('expanded');
 
-        // Close other expanded categories
-        document.querySelectorAll('.category-item.expanded').forEach(item => {
-            if (item !== categoryItem) {
-                item.classList.remove('expanded');
-                item.querySelector('.channel-list').style.maxHeight = 0;
-            }
-        });
+        // Close other expanded categories, unless we are in search mode or forcing expand
+        if (searchInput.value === '' || forceExpand) { // Only collapse others if NOT searching or forcing expand
+            document.querySelectorAll('.category-item.expanded').forEach(item => {
+                if (item !== categoryItem) {
+                    item.classList.remove('expanded');
+                    item.querySelector('.channel-list').style.maxHeight = 0;
+                }
+            });
+        }
+        
 
-        if (forceExpand || !isExpanded) {
+        if (forceExpand || !isExpanded) { // If forcing expand OR not expanded
             categoryItem.classList.add('expanded');
             channelList.style.maxHeight = channelList.scrollHeight + 'px'; 
-        } else {
+        } else { // If already expanded and not forcing expand (i.e. user clicks to close)
             categoryItem.classList.remove('expanded');
             channelList.style.maxHeight = 0;
         }
@@ -1420,15 +1444,7 @@
             const warezLink = categoryItem.querySelector('.channel-item').dataset.warezUrl;
             if (warezLink) {
                 showWarezCdnContent(warezLink, 'warezcdn-access');
-                // Ensure other categories are collapsed, and this one is visually expanded (without the channel list dropdown)
-                document.querySelectorAll('.category-item.expanded').forEach(item => {
-                    if (item !== categoryItem) {
-                        item.classList.remove('expanded');
-                        item.querySelector('.channel-list').style.maxHeight = 0;
-                    }
-                });
-                categoryItem.classList.add('expanded'); // Visually mark as expanded
-                return;
+                return; // Stop further processing for category toggle
             }
         }
         toggleCategory(categoryItem);
@@ -1498,8 +1514,9 @@
                 }
             } else if (searchTerm.length === 0) {
                 item.style.display = 'flex'; // Show all if search is empty
-                if (parentCategory && parentCategory !== favoritesCategory) { // Only collapse non-favorite categories
-                    toggleCategory(parentCategory, false); // Collapse if search is cleared
+                // If search cleared, categories are collapsed by default in DOMContentLoaded or by resetSearchAndCollapseCategories
+                if (parentCategory && parentCategory !== favoritesCategory) { 
+                    toggleCategory(parentCategory, false);
                 }
             } else {
                 item.style.display = 'none'; // Hide non-matching item
@@ -1523,7 +1540,7 @@
             } else {
                 categoryItem.style.display = 'block';
                 // If search is cleared, ensure categories are collapsed unless favorites are showing
-                if (searchTerm.length === 0 && categoryItem !== favoritesCategory) {
+                if (searchTerm.length === 0 && categoryItem.id !== 'favoritesCategory') {
                     toggleCategory(categoryItem, false);
                 } else if (searchTerm.length > 0) {
                     toggleCategory(categoryItem, true); // Keep matching categories expanded during search
@@ -1540,26 +1557,48 @@
     // Function to reset search and collapse categories
     function resetSearchAndCollapseCategories() {
         searchInput.value = ''; // Clear search input
-        searchInput.dispatchEvent(new Event('input')); // Trigger input event to re-filter
+        searchInput.dispatchEvent(new Event('input')); // Trigger input event to re-filter (show all)
 
-        // Collapse all categories except favorites (if populated)
+        // Collapse all categories, except favorites (if populated)
         document.querySelectorAll('.category-item').forEach(categoryItem => {
             if (categoryItem.id === 'favoritesCategory') {
-                if (getFavorites().length > 0) {
-                    toggleCategory(categoryItem, true); // Expand favorites if there are items
-                } else {
-                    toggleCategory(categoryItem, false); // Collapse if no favorites
-                }
+                // Favorites category expands automatically in renderFavoritesList if it has items
+                renderFavoritesList(); // Re-render to update the list and its expanded state
             } else {
                 toggleCategory(categoryItem, false); // Collapse all other categories
             }
         });
+        // After this, setActiveChannel will expand the chosen item's category.
     }
 
-    // Event listener for "Back to Catalog" button in WarezCDN view
-    backToWarezCdnCatalog.addEventListener('click', () => {
-        showWarezCdnContent('https://warezcdn.link/conteudo', 'warezcdn-access');
-    });
+    // Function to reset site state to initial (HOME button functionality)
+    function resetSiteState() {
+        showNoPlayerMessage(); // Show welcome message and clear player/grade
+        
+        // Clear search input and reset filter state
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input')); // Trigger input event to clear search filter and show all channels
+
+        // Clear active channel highlight
+        setActiveChannel(null);
+
+        // Collapse ALL categories, including favorites
+        document.querySelectorAll('.category-item').forEach(categoryItem => {
+            toggleCategory(categoryItem, false); // Force collapse all
+        });
+        
+        // After collapsing all, re-render favorites to manage its display based on content
+        renderFavoritesList();
+
+        // Ensure TV Channels view is active (if it's not already)
+        document.querySelectorAll('.content-view').forEach(view => {
+            view.style.display = 'none';
+        });
+        tvChannelsView.style.display = 'flex';
+    }
+
+    // Add event listener to the HOME button (logo-placeholder)
+    homeButton.addEventListener('click', resetSiteState);
 
     // Initial state on page load: show welcome message, load favorites and collapse all categories
     document.addEventListener('DOMContentLoaded', () => {
@@ -1575,9 +1614,12 @@
             }
         });
 
-        // Ensure all categories start collapsed on load
+        // Ensure all categories start collapsed on load (except favorites which is handled by renderFavoritesList)
         document.querySelectorAll('.category-item').forEach(categoryItem => {
-            toggleCategory(categoryItem, false); // Force collapse
+            if (categoryItem.id !== 'favoritesCategory') {
+                toggleCategory(categoryItem, false); // Force collapse
+            }
+            // Favorites category expanded state is managed by renderFavoritesList itself.
         });
     });
   </script>
