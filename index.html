@@ -5,30 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TV Marinho</title>
   <!-- Favicon - Adicione o link para o seu próprio ícone aqui -->
-  <!-- Recomenda-se um arquivo .ico ou .png pequeno, ex: <link rel="icon" href="https://seusite.com/favicon.ico" type="image/x-icon"> -->
   <link rel="icon" href="https://via.placeholder.com/16/e03b45/ffffff?text=📺" type="image/x-icon"> 
   
   <!-- Google Fonts: Inter para um visual moderno e limpo -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   
-  <!-- Font Awesome para ícones - Essencial para o novo menu -->
+  <!-- Font Awesome para ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* CSS Variables for easy theming - ATUALIZADO para modernidade */
+    /* CSS Variables for easy theming */
     :root {
-      --bg-dark: #0A0A0A; /* Um pouco mais escuro para maior contraste */
-      --nav-bg: #1A1A1A; /* Mais escuro, mantendo distinção */
-      --text-light: #E0E0E0; /* Levemente mais suave que branco puro */
-      --accent-red: #E03B45; /* Um vermelho vibrante, mas menos "agressivo" */
-      --accent-red-hover: #FF5C67; /* Um tom mais claro para hover */
-      --border-color: #2F2F2F; /* Borda sutil */
+      --bg-dark: #0A0A0A;
+      --nav-bg: #1A1A1A;
+      --text-light: #E0E0E0;
+      --accent-red: #E03B45;
+      --accent-red-hover: #FF5C67;
+      --border-color: #2F2F2F;
       --shadow-color: rgba(0, 0, 0, 0.7);
-      --highlight-shadow: rgba(224, 59, 69, 0.4); /* Sombra do destaque mais suave */
-      --item-bg: #282828; /* Fundo dos itens de categoria e canal */
-      --item-hover-bg: #3A3A3A; /* Hover dos itens */
-      --secondary-text: #A0A0A0; /* Um cinza para textos secundários */
-      --subtle-gradient: linear-gradient(135deg, #1A1A1A, #0A0A0A); /* Exemplo de gradiente sutil */
+      --highlight-shadow: rgba(224, 59, 69, 0.4);
+      --item-bg: #282828;
+      --item-hover-bg: #3A3A3A;
+      --secondary-text: #A0A0A0;
     }
 
     /* Animated Background (Subtle) */
@@ -38,12 +36,11 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Corpo e geral - ATUALIZADO */
     body {
       margin: 0;
-      background: linear-gradient(-45deg, #1A1A1A, #0A0A0A, #1A1A1A, #0A0A0A); /* Gradiente animado */
+      background: linear-gradient(-45deg, #1A1A1A, #0A0A0A, #1A1A1A, #0A0A0A);
       background-size: 400% 400%;
-      animation: gradient-animation 15s ease infinite; /* Animação suave e longa */
+      animation: gradient-animation 15s ease infinite;
       background-attachment: fixed;
       color: var(--text-light);
       font-family: 'Inter', sans-serif;
@@ -54,13 +51,11 @@
       overflow-x: hidden;
     }
 
-    /* Container geral: barra fixa + conteúdo */
     .container {
       display: flex;
       width: 100%;
     }
 
-    /* Menu lateral fixo - ATUALIZADO */
     nav {
       position: fixed;
       top: 0;
@@ -72,7 +67,7 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      gap: 15px; /* Espaçamento entre categorias */
+      gap: 15px;
       overflow-y: auto;
       border-right: 1px solid var(--border-color);
       z-index: 1000;
@@ -90,6 +85,47 @@
       padding-top: 10px;
     }
 
+    /* Search Container */
+    .search-container {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    #searchInput {
+        width: 100%;
+        padding: 12px 15px 12px 40px; /* Padding extra para o ícone */
+        border: none;
+        border-radius: 8px;
+        background-color: var(--item-bg);
+        color: var(--text-light);
+        font-size: 1em;
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+        transition: all 0.2s ease;
+        outline: none;
+    }
+
+    #searchInput::placeholder {
+        color: var(--secondary-text);
+    }
+
+    #searchInput:focus {
+        box-shadow: 0 0 0 3px var(--accent-red);
+        background-color: var(--item-hover-bg);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--secondary-text);
+        transition: color 0.2s ease;
+    }
+
+    #searchInput:focus + .search-icon {
+        color: var(--accent-red);
+    }
+
     /* Category List */
     .category-list {
         list-style: none;
@@ -101,7 +137,7 @@
     .category-item {
         margin-bottom: 10px;
         border-radius: 8px;
-        overflow: hidden; /* Garante que o border-radius funcione com o collapse */
+        overflow: hidden;
     }
 
     .category-header {
@@ -137,7 +173,7 @@
         transform: rotate(180deg);
     }
 
-    .category-header .external-icon { /* For WarezCDN link */
+    .category-header .external-icon {
         margin-left: auto;
         color: var(--secondary-text);
         font-size: 0.9em;
@@ -147,24 +183,27 @@
         list-style: none;
         padding: 0;
         margin: 0;
-        max-height: 0; /* Hidden by default */
+        max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease-out;
-        background-color: #222; /* Slightly different background for channels */
+        background-color: #222;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
     }
     
     .category-item.expanded .channel-list {
-        max-height: 500px; /* Adjust as needed for content height, larger than expected max */
+        max-height: 500px; /* Arbitrarily large to accommodate content */
     }
 
     .channel-item {
+        display: flex; /* Para alinhar o texto e a estrela */
+        justify-content: space-between; /* Para empurrar a estrela para a direita */
+        align-items: center;
         padding: 12px 20px;
         color: var(--text-light);
         cursor: pointer;
         transition: background-color 0.2s ease, color 0.2s ease;
-        border-top: 1px solid rgba(255,255,255,0.05); /* Sutil divisor */
+        border-top: 1px solid rgba(255,255,255,0.05);
     }
 
     .channel-item:first-child {
@@ -176,21 +215,61 @@
         color: var(--accent-red);
     }
 
+    /* Play icon (pseudo-element on the span, not the li) */
+    .channel-item > span:first-of-type {
+        flex-grow: 1; /* Allow the span to take available space */
+        position: relative; /* For positioning the play icon */
+        padding-right: 10px; /* Initial space for play icon if active */
+    }
+
+    .channel-item.active > span:first-of-type {
+        padding-right: 35px; /* Make more space for the play icon when active */
+    }
+
+    .channel-item.active > span:first-of-type::after {
+        content: '▶';
+        position: absolute;
+        right: 5px; /* Position play icon at the right edge of the span */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.8em;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Favorite star icon */
+    .favorite-toggle {
+        color: var(--secondary-text); /* Default color for unfavorited */
+        margin-left: 10px; /* Space from the channel name text */
+        cursor: pointer;
+        transition: color 0.2s ease, transform 0.2s ease;
+        flex-shrink: 0; /* Prevent shrinking */
+    }
+
+    .favorite-toggle:hover {
+        transform: scale(1.2);
+        color: gold; /* Hover color for star */
+    }
+
+    .favorite-toggle.fas { /* Solid star when favorited */
+        color: gold;
+    }
+
+    /* Active state for channel item */
     .channel-item.active {
         background-color: var(--accent-red);
         color: #FFFFFF;
         font-weight: 700;
-        position: relative;
     }
-    .channel-item.active::after {
-        content: '▶'; /* Play icon */
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.8em;
+    
+    .channel-item.active .favorite-toggle.fas {
+        color: white; /* Star should be white on active red background */
     }
-    /* Conteúdo principal — empurrado para direita para não ficar atrás da barra fixa */
+    .channel-item.active .favorite-toggle.far {
+        color: rgba(255, 255, 255, 0.7); /* Non-favorited star on active background */
+    }
+
+
+    /* Conteúdo principal */
     .main-container {
       margin-left: 280px;
       flex: 1;
@@ -200,13 +279,13 @@
       flex-direction: column;
       align-items: center;
       gap: 30px;
-      background-color: transparent; /* Permite que o gradiente do body apareça */
+      background-color: transparent;
       min-height: 100vh;
       overflow-y: auto;
       width: calc(100% - 280px);
     }
 
-    /* Wrapper para as views dinâmicas (canais ou WarezCDN) */
+    /* Wrapper para as views dinâmicas */
     .dynamic-content-container {
       display: flex;
       flex-direction: column;
@@ -224,12 +303,11 @@
       gap: inherit;
     }
     
-    /* A visão padrão que deve estar visível ao iniciar */
     #tvChannelsView {
         display: flex;
     }
 
-    /* Título principal - ATUALIZADO */
+    /* Título principal */
     .main-header {
       width: 100%;
       text-align: center;
@@ -248,7 +326,7 @@
       transition: text-shadow 0.3s ease;
     }
 
-    /* Player de vídeo - ATUALIZADO */
+    /* Player de vídeo */
     .player-container {
       position: relative;
       width: 80%;
@@ -275,15 +353,20 @@
       border: none;
       display: none;
       background-color: #000;
+      /* scrolling="no" REMOVIDO */
     }
 
-    /* Mensagem de nenhum vídeo selecionado - ATUALIZADO */
+    /* Mensagem de nenhum vídeo selecionado */
     .no-video-message {
       text-align: center;
       color: var(--text-light);
       font-size: 1.8em;
       font-weight: 700;
       padding: 20px;
+      display: flex; /* Para centralizar conteúdo */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .no-video-message span {
@@ -293,7 +376,7 @@
         margin-top: 8px;
     }
 
-    /* Loading spinner - ATUALIZADO */
+    /* Loading spinner */
     .loader {
       border: 7px solid rgba(255, 255, 255, 0.2);
       border-top: 7px solid var(--accent-red);
@@ -313,7 +396,7 @@
       100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    /* Grade de programação - ATUALIZADO */
+    /* Grade de programação */
     iframe#gradeIframe {
       width: 80%;
       height: 500px;
@@ -328,7 +411,7 @@
       box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 40px var(--accent-red);
     }
 
-    /* NOVO ESTILO: iframe para o conteúdo da WarezCDN - ATUALIZADO */
+    /* iframe para o conteúdo da WarezCDN */
     iframe#warezCdnContentIframe {
       width: 80%;
       height: 700px;
@@ -337,13 +420,14 @@
       background-color: #000;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--highlight-shadow);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      /* scrolling="no" REMOVIDO */
     }
     iframe#warezCdnContentIframe:hover {
       transform: translateY(-5px);
       box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 40px var(--accent-red);
     }
 
-    /* NOVO ESTILO: Mensagem de carregamento para WarezCDN */
+    /* Mensagem de carregamento para WarezCDN */
     #warezCdnLoadingMessage {
         text-align: center;
         color: var(--text-light);
@@ -353,7 +437,7 @@
         margin-top: 20px;
     }
 
-    /* Style for the new back button in WarezCDN view - ATUALIZADO */
+    /* Back button in WarezCDN view */
     .warez-back-button {
       background-color: var(--accent-red);
       color: var(--text-light);
@@ -373,7 +457,6 @@
       transform: translateY(-3px);
       box-shadow: 0 8px 25px rgba(224, 59, 69, 0.7);
     }
-
 
     /* Estilização da Barra de Rolagem (navegadores Webkit) */
     ::-webkit-scrollbar {
@@ -396,7 +479,7 @@
       background: var(--accent-red);
     }
 
-    /* Responsividade - ATUALIZADO */
+    /* Responsividade */
     @media (max-width: 992px) {
       .main-header h1 {
         font-size: 2.8em;
@@ -420,13 +503,13 @@
         position: relative;
         width: 100%;
         height: auto;
-        flex-direction: row;
-        overflow-x: auto;
+        flex-direction: column;
+        overflow-x: hidden;
         padding: 15px 10px;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
         gap: 15px;
-        white-space: nowrap;
+        white-space: normal;
         justify-content: flex-start;
       }
 
@@ -434,13 +517,31 @@
           font-size: 2em;
           margin-bottom: 10px;
       }
-      /* Hide complex categories menu on small screens, simplify to a single list/selector if desired for mobile */
-      .category-list {
-          display: none; 
-      }
-      /* If you want a mobile-friendly category selection, you'd add a <select> here for categories */
-      /* For now, it will simply remove the side menu and focus on the main content */
       
+      /* Search input in mobile */
+      #searchInput {
+          width: calc(100% - 55px);
+      }
+      .search-container {
+        width: 90%;
+        margin: 0 auto 20px;
+      }
+
+      /* Category headers in mobile */
+      .category-header {
+          padding: 12px 15px;
+          font-size: 1em;
+      }
+      .category-header .icon {
+          margin-right: 8px;
+      }
+
+      /* Channel items in mobile */
+      .channel-item {
+          padding: 10px 15px;
+          font-size: 0.95em;
+      }
+
       .main-container {
         margin-left: 0;
         padding: 20px 15px;
@@ -487,7 +588,25 @@
     <nav>
       <div class="logo-placeholder">TV Marinho</div>
 
+      <!-- Search Input -->
+      <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Buscar canais...">
+          <i class="fas fa-search search-icon"></i>
+      </div>
+
       <ul class="category-list">
+        <!-- MEUS FAVORITOS -->
+        <li class="category-item" id="favoritesCategory">
+            <div class="category-header">
+                <i class="fas fa-star icon"></i>
+                <span>Meus Favoritos</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <ul class="channel-list" id="favoritesList">
+                <li class="channel-item no-favorites-message" style="display: flex; justify-content: center; align-items: center; color: var(--secondary-text);">Nenhum favorito adicionado ainda.</li>
+            </ul>
+        </li>
+
         <!-- Canais Abertos -->
         <li class="category-item">
           <div class="category-header">
@@ -496,26 +615,66 @@
             <i class="fas fa-chevron-down arrow"></i>
           </div>
           <ul class="channel-list">
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/globosp" data-grade-url="https://meuguia.tv/programacao/canal/GRD">Globo SP</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=bobosp" data-grade-url="https://meuguia.tv/programacao/canal/GRD">Globo SP 2</li>
-            <li class="channel-item" data-video-url="https://www.embedtv.net/embed/globo-sp" data-grade-url="https://meuguia.tv/programacao/canal/GRD">Globo SP 3</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=globosp-globosaopaulo" data-grade-url="https://meuguia.tv/programacao/canal/GRD">Globo SP 4</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT">SBT</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT">SBT 2</li>
-            <li class="channel-item" data-video-url="https://www.embedtv.net/embed/sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT">SBT 3</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT">SBT 4</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/record" data-grade-url="https://meuguia.tv/programacao/canal/REC">Record</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=record" data-grade-url="https://meuguia.tv/programacao/canal/REC">Record 2</li>
-            <li class="channel-item" data-video-url="https://www.embedtv.net/embed/record" data-grade-url="https://meuguia.tv/programacao/canal/REC">Record 3</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=record" data-grade-url="https://meuguia.tv/programacao/canal/REC">Record 4</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/band" data-grade-url="https://meuguia.tv/programacao/canal/BAN">Band</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=band" data-grade-url="https://meuguia.tv/programacao/canal/BAN">Band 2</li>
-            <li class="channel-item" data-video-url="https://www.embedtv.net/embed/band" data-grade-url="https://meuguia.tv/programacao/canal/BAN">Band 3</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=band" data-grade-url="https://meuguia.tv/programacao/canal/BAN">Band 4</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=redetv" data-grade-url="https://meuguia.tv/programacao/canal/CBR">Rede TV</li>
-            <li class="channel-item" data-video-url="https://www.embedtv.net/embed/rede-tv" data-grade-url="https://meuguia.tv/programacao/canal/CBR">Rede TV 2</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=redetv" data-grade-url="https://meuguia.tv/programacao/canal/CBR">Rede TV 3</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=tvcultura" data-grade-url="https://meuguia.tv/programacao/canal/CUL">TV Cultura</li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/globosp" data-grade-url="https://meuguia.tv/programacao/canal/GRD" data-unique-id="globosp-1">
+              <span>Globo SP</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=bobosp" data-grade-url="https://meuguia.tv/programacao/canal/GRD" data-unique-id="globosp-2">
+              <span>Globo SP 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://www.embedtv.net/embed/globo-sp" data-grade-url="https://meuguia.tv/programacao/canal/GRD" data-unique-id="globosp-3">
+              <span>Globo SP 3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=globosp-globosaopaulo" data-grade-url="https://meuguia.tv/programacao/canal/GRD" data-unique-id="globosp-4">
+              <span>Globo SP 4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT" data-unique-id="sbt-1">
+              <span>SBT</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT" data-unique-id="sbt-2">
+              <span>SBT 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://www.embedtv.net/embed/sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT" data-unique-id="sbt-3">
+              <span>SBT 3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=sbt" data-grade-url="https://meuguia.tv/programacao/canal/SBT" data-unique-id="sbt-4">
+              <span>SBT 4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/record" data-grade-url="https://meuguia.tv/programacao/canal/REC" data-unique-id="record-1">
+              <span>Record</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=record" data-grade-url="https://meuguia.tv/programacao/canal/REC" data-unique-id="record-2">
+              <span>Record 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://www.embedtv.net/embed/record" data-grade-url="https://meuguia.tv/programacao/canal/REC" data-unique-id="record-3">
+              <span>Record 3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=record" data-grade-url="https://meuguia.tv/programacao/canal/REC" data-unique-id="record-4">
+              <span>Record 4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/band" data-grade-url="https://meuguia.tv/programacao/canal/BAN" data-unique-id="band-1">
+              <span>Band</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=band" data-grade-url="https://meuguia.tv/programacao/canal/BAN" data-unique-id="band-2">
+              <span>Band 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://www.embedtv.net/embed/band" data-grade-url="https://meuguia.tv/programacao/canal/BAN" data-unique-id="band-3">
+              <span>Band 3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=band" data-grade-url="https://meuguia.tv/programacao/canal/BAN" data-unique-id="band-4">
+              <span>Band 4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%65%65/player3/ch.php?canal=redetv" data-grade-url="https://meuguia.tv/programacao/canal/CBR" data-unique-id="redetv-1">
+              <span>Rede TV</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://www.embedtv.net/embed/rede-tv" data-grade-url="https://meuguia.tv/programacao/canal/CBR" data-unique-id="redetv-2">
+              <span>Rede TV 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+                <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=redetv" data-grade-url="https://meuguia.tv/programacao/canal/CBR" data-unique-id="redetv-3">
+              <span>Rede TV 3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=tvcultura" data-grade-url="https://meuguia.tv/programacao/canal/CUL" data-unique-id="tvcultura-1">
+              <span>TV Cultura</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
           </ul>
         </li>
         <!-- Filmes -->
@@ -526,62 +685,174 @@
             <i class="fas fa-chevron-down arrow"></i>
           </div>
           <ul class="channel-list">
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinepremium" data-grade-url="https://meuguia.tv/programacao/canal/TC1">Telecine Premium</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinepremium" data-grade-url="https://meuguia.tv/programacao/canal/TC1">Telecine Premium 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinepipoca" data-grade-url="https://meuguia.tv/programacao/canal/TC4">Telecine Pipoca</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinepipoca" data-grade-url="https://meuguia.tv/programacao/canal/TC4">Telecine Pipoca 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecineaction" data-grade-url="https://meuguia.tv/programacao/canal/TC2">Telecine Action</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecineaction" data-grade-url="https://meuguia.tv/programacao/canal/TC2">Telecine Action 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinetouch" data-grade-url="https://meuguia.tv/programacao/canal/TC3">Telecine Touch</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinetouch" data-grade-url="https://meuguia.tv/programacao/canal/TC3">Telecine Touch 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinefun" data-grade-url="https://meuguia.tv/programacao/canal/TC6">Telecine Fun</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinefun" data-grade-url="https://meuguia.tv/programacao/canal/TC6">Telecine Fun 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinecult" data-grade-url="https://meuguia.tv/programacao/canal/TC5">Telecine Cult</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinecult" data-grade-url="https://meuguia.tv/programacao/canal/TC5">Telecine Cult 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbo" data-grade-url="https://meuguia.tv/programacao/canal/HBO">HBO</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbo" data-grade-url="https://meuguia.tv/programacao/canal/HBO">HBO 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbo2" data-grade-url="https://meuguia.tv/programacao/canal/HB2">HBO2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbo2" data-grade-url="https://meuguia.tv/programacao/canal/HB2">HBO2 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hboplus" data-grade-url="https://meuguia.tv/programacao/canal/HPL">HBO Plus</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hboplus" data-grade-url="https://meuguia.tv/programacao/canal/HPL">HBO Plus 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbofamily" data-grade-url="https://meuguia.tv/programacao/canal/HFA">HBO Family</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbofamily" data-grade-url="https://meuguia.tv/programacao/canal/HFA">HBO Family 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbosignature" data-grade-url="https://meuguia.tv/programacao/canal/HFE">HBO Signature</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hboxtreme" data-grade-url="https://www.guiadetv.com/canal/hbo-xtreme">HBO Xtreme</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hboxtreme" data-grade-url="https://www.guiadetv.com/canal/hbo-xtreme">HBO Xtreme 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbomundi" data-grade-url="https://www.guiadetv.com/canal/hbo-mundi">HBO Mundi</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbomundi" data-grade-url="https://www.guiadetv.com/canal/hbo-mundi">HBO Mundi 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbopop" data-grade-url="https://www.guiadetv.com/canal/hbo-pop">HBO POP</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbopop" data-grade-url="https://www.guiadetv.com/canal/hbo-pop">HBO POP 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=amc" data-grade-url="https://meuguia.tv/programacao/canal/MGM">AMC</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/axn" data-grade-url="https://meuguia.tv/programacao/canal/AXN">AXN</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=axn" data-grade-url="https://meuguia.tv/programacao/canal/AXN">AXN 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/fx" data-grade-url="https://programacao.tv/fx">FX</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/megapix" data-grade-url="https://meuguia.tv/programacao/canal/MPX">Megapix</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=megapix" data-grade-url="https://meuguia.tv/programacao/canal/MPX">Megapix 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/studiouniversal" data-grade-url="https://meuguia.tv/programacao/canal/HAL">Studio Universal</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=studiouniversal" data-grade-url="https://meuguia.tv/programacao/canal/HAL">Studio Universal 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/cinemax" data-grade-url="https://meuguia.tv/programacao/canal/MNX">Cinemax</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=cinemax" data-grade-url="https://meuguia.tv/programacao/canal/MNX">Cinemax 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/sonychannel" data-grade-url="https://meuguia.tv/programacao/canal/SET">Sony Channel</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=sony" data-grade-url="https://meuguia.tv/programacao/canal/SET">Sony Channel 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=sonymovies" data-grade-url="https://www.guiadetv.com/canal/sony-movies">Sony Movies</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/space" data-grade-url="https://meuguia.tv/programacao/canal/SPA">Space</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=space" data-grade-url="https://meuguia.tv/programacao/canal/SPA">Space 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/starchannel" data-grade-url="https://www.claro.com.br/tv-por-assinatura/programacao/grade/programa/star-channel-hd/1-2429?srsltid=AfmBOooTiCFBK1DrJpHOeKFpqWzjxax1Q2QfpoJLxQMpi5cpYSl8ZnQt">Star Channel</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/warnerchannel" data-grade-url="https://meuguia.tv/programacao/canal/WBT">Warner TV</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=warner" data-grade-url="https://meuguia.tv/programacao/canal/WBT">Warner TV 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/tlc" data-grade-url="https://meuguia.tv/programacao/canal/TRV" data-grade-url="https://meuguia.tv/programacao/canal/TRV">TLC</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tlc" data-grade-url="https://meuguia.tv/programacao/canal/TRV">TLC 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/ae" data-grade-url="https://meuguia.tv/programacao/canal/MDO">A&E</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=aie" data-grade-url="https://meuguia.tv/programacao/canal/MDO">A&E 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/tnt" data-grade-url="https://meuguia.tv/programacao/canal/TNT">TNT</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tnt" data-grade-url="https://meuguia.tv/programacao/canal/TNT">TNT 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/tntnovelas" data-grade-url="https://www.guiadetv.com/canal/tnt-novelas">TNT Novelas</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tntnovelas" data-grade-url="https://www.guiadetv.com/canal/tnt-novelas">TNT Novelas 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/tntseries" data-grade-url="https://meuguia.tv/programacao/canal/TNS">TNT Series</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tntseries" data-grade-url="https://meuguia.tv/programacao/canal/TNS">TNT Series 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/tcm" data-grade-url="https://meuguia.tv/programacao/canal/TCM">TCM</li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinepremium" data-grade-url="https://meuguia.tv/programacao/canal/TC1" data-unique-id="tcpremium-1">
+              <span>Telecine Premium</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinepremium" data-grade-url="https://meuguia.tv/programacao/canal/TC1" data-unique-id="tcpremium-2">
+              <span>Telecine Premium 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinepipoca" data-grade-url="https://meuguia.tv/programacao/canal/TC4" data-unique-id="tcpipoca-1">
+              <span>Telecine Pipoca</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinepipoca" data-grade-url="https://meuguia.tv/programacao/canal/TC4" data-unique-id="tcpipoca-2">
+              <span>Telecine Pipoca 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecineaction" data-grade-url="https://meuguia.tv/programacao/canal/TC2" data-unique-id="tcaction-1">
+              <span>Telecine Action</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecineaction" data-grade-url="https://meuguia.tv/programacao/canal/TC2" data-unique-id="tcaction-2">
+              <span>Telecine Action 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinetouch" data-grade-url="https://meuguia.tv/programacao/canal/TC3" data-unique-id="tctouch-1">
+              <span>Telecine Touch</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinetouch" data-grade-url="https://meuguia.tv/programacao/canal/TC3" data-unique-id="tctouch-2">
+              <span>Telecine Touch 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinefun" data-grade-url="https://meuguia.tv/programacao/canal/TC6" data-unique-id="tcfun-1">
+              <span>Telecine Fun</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinefun" data-grade-url="https://meuguia.tv/programacao/canal/TC6" data-unique-id="tcfun-2">
+              <span>Telecine Fun 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/telecinecult" data-grade-url="https://meuguia.tv/programacao/canal/TC5" data-unique-id="tccult-1">
+              <span>Telecine Cult</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=telecinecult" data-grade-url="https://meuguia.tv/programacao/canal/TC5" data-unique-id="tccult-2">
+              <span>Telecine Cult 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbo" data-grade-url="https://meuguia.tv/programacao/canal/HBO" data-unique-id="hbo-1">
+              <span>HBO</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbo" data-grade-url="https://meuguia.tv/programacao/canal/HBO" data-unique-id="hbo-2">
+              <span>HBO 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbo2" data-grade-url="https://meuguia.tv/programacao/canal/HB2" data-unique-id="hbo2-1">
+              <span>HBO2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbo2" data-grade-url="https://meuguia.tv/programacao/canal/HB2" data-unique-id="hbo2-2">
+              <span>HBO2 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hboplus" data-grade-url="https://meuguia.tv/programacao/canal/HPL" data-unique-id="hboplus-1">
+              <span>HBO Plus</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hboplus" data-grade-url="https://meuguia.tv/programacao/canal/HPL" data-unique-id="hboplus-2">
+              <span>HBO Plus 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbofamily" data-grade-url="https://meuguia.tv/programacao/canal/HFA" data-unique-id="hbofamily-1">
+              <span>HBO Family</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbofamily" data-grade-url="https://meuguia.tv/programacao/canal/HFA" data-unique-id="hbofamily-2">
+              <span>HBO Family 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbosignature" data-grade-url="https://meuguia.tv/programacao/canal/HFE" data-unique-id="hbosignature-1">
+              <span>HBO Signature</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hboxtreme" data-grade-url="https://www.guiadetv.com/canal/hbo-xtreme" data-unique-id="hboxtreme-1">
+              <span>HBO Xtreme</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hboxtreme" data-grade-url="https://www.guiadetv.com/canal/hbo-xtreme" data-unique-id="hboxtreme-2">
+              <span>HBO Xtreme 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbomundi" data-grade-url="https://www.guiadetv.com/canal/hbo-mundi" data-unique-id="hbomundi-1">
+              <span>HBO Mundi</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbomundi" data-grade-url="https://www.guiadetv.com/canal/hbo-mundi" data-unique-id="hbomundi-2">
+              <span>HBO Mundi 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/hbopop" data-grade-url="https://www.guiadetv.com/canal/hbo-pop" data-unique-id="hbopop-1">
+              <span>HBO POP</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=hbopop" data-grade-url="https://www.guiadetv.com/canal/hbo-pop" data-unique-id="hbopop-2">
+              <span>HBO POP 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=amc" data-grade-url="https://meuguia.tv/programacao/canal/MGM" data-unique-id="amc-1">
+              <span>AMC</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/axn" data-grade-url="https://meuguia.tv/programacao/canal/AXN" data-unique-id="axn-1">
+              <span>AXN</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=axn" data-grade-url="https://meuguia.tv/programacao/canal/AXN" data-unique-id="axn-2">
+              <span>AXN 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/fx" data-grade-url="https://programacao.tv/fx" data-unique-id="fx-1">
+              <span>FX</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/megapix" data-grade-url="https://meuguia.tv/programacao/canal/MPX" data-unique-id="megapix-1">
+              <span>Megapix</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=megapix" data-grade-url="https://meuguia.tv/programacao/canal/MPX" data-unique-id="megapix-2">
+              <span>Megapix 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/studiouniversal" data-grade-url="https://meuguia.tv/programacao/canal/HAL" data-unique-id="studiouniversal-1">
+              <span>Studio Universal</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=studiouniversal" data-grade-url="https://meuguia.tv/programacao/canal/HAL" data-unique-id="studiouniversal-2">
+              <span>Studio Universal 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/cinemax" data-grade-url="https://meuguia.tv/programacao/canal/MNX" data-unique-id="cinemax-1">
+              <span>Cinemax</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=cinemax" data-grade-url="https://meuguia.tv/programacao/canal/MNX" data-unique-id="cinemax-2">
+              <span>Cinemax 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/sonychannel" data-grade-url="https://meuguia.tv/programacao/canal/SET" data-unique-id="sonychannel-1">
+              <span>Sony Channel</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=sony" data-grade-url="https://meuguia.tv/programacao/canal/SET" data-unique-id="sonychannel-2">
+              <span>Sony Channel 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=sonymovies" data-grade-url="https://www.guiadetv.com/canal/sony-movies" data-unique-id="sonymovies-1">
+              <span>Sony Movies</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/space" data-grade-url="https://meuguia.tv/programacao/canal/SPA" data-unique-id="space-1">
+              <span>Space</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=space" data-grade-url="https://meuguia.tv/programacao/canal/SPA" data-unique-id="space-2">
+              <span>Space 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/starchannel" data-grade-url="https://www.claro.com.br/tv-por-assinatura/programacao/grade/programa/star-channel-hd/1-2429?srsltid=AfmBOooTiCFBK1DrJpHOeKFpqWzjxax1Q2QfpoJLxQMpi5cpYSl8ZnQt" data-unique-id="starchannel-1">
+              <span>Star Channel</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/warnerchannel" data-grade-url="https://meuguia.tv/programacao/canal/WBT" data-unique-id="warnertv-1">
+              <span>Warner TV</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=warner" data-grade-url="https://meuguia.tv/programacao/canal/WBT" data-unique-id="warnertv-2">
+              <span>Warner TV 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/tlc" data-grade-url="https://meuguia.tv/programacao/canal/TRV" data-unique-id="tlc-1">
+              <span>TLC</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tlc" data-grade-url="https://meuguia.tv/programacao/canal/TRV" data-unique-id="tlc-2">
+              <span>TLC 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/ae" data-grade-url="https://meuguia.tv/programacao/canal/MDO" data-unique-id="ae-1">
+              <span>A&E</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=aie" data-grade-url="https://meuguia.tv/programacao/canal/MDO" data-unique-id="ae-2">
+              <span>A&E 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/tnt" data-grade-url="https://meuguia.tv/programacao/canal/TNT" data-unique-id="tnt-1">
+              <span>TNT</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tnt" data-grade-url="https://meuguia.tv/programacao/canal/TNT" data-unique-id="tnt-2">
+              <span>TNT 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/tntnovelas" data-grade-url="https://www.guiadetv.com/canal/tnt-novelas" data-unique-id="tntnovelas-1">
+              <span>TNT Novelas</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tntnovelas" data-grade-url="https://www.guiadetv.com/canal/tnt-novelas" data-unique-id="tntnovelas-2">
+              <span>TNT Novelas 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/tntseries" data-grade-url="https://meuguia.tv/programacao/canal/TNS" data-unique-id="tntseries-1">
+              <span>TNT Series</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=tntseries" data-grade-url="https://meuguia.tv/programacao/canal/TNS" data-unique-id="tntseries-2">
+              <span>TNT Series 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/tcm" data-grade-url="https://meuguia.tv/programacao/canal/TCM" data-unique-id="tcm-1">
+              <span>TCM</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
           </ul>
         </li>
         <!-- Séries -->
@@ -592,13 +863,27 @@
             <i class="fas fa-chevron-down arrow"></i>
           </div>
           <ul class="channel-list">
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=syfy" data-grade-url="https://www.guiadetv.com/canal/syfy">SyFy</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/universaltv" data-grade-url="https://meuguia.tv/programacao/canal/USA">Universal TV</li>
-            <li class="channel-item" data-video-url="//%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=universal" data-grade-url="https://meuguia.tv/programacao/canal/USA">Universal TV 2</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=universalpremiere" data-grade-url="https://www.tvplus.com.br/programacao/universal-premiere">Universal Premiere</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=universalreality" data-grade-url="https://www.tvplus.com.br/programacao/universal-reality">Universal Reality</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/warnerchannel" data-grade-url="https://meuguia.tv/programacao/canal/WBT">Warner Channel</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=warner" data-grade-url="https://meuguia.tv/programacao/canal/WBT">Warner Channel 2</li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=syfy" data-grade-url="https://www.guiadetv.com/canal/syfy" data-unique-id="syfy-1">
+              <span>SyFy</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/universaltv" data-grade-url="https://meuguia.tv/programacao/canal/USA" data-unique-id="universaltv-1">
+              <span>Universal TV</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="//%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=universal" data-grade-url="https://meuguia.tv/programacao/canal/USA" data-unique-id="universaltv-2">
+              <span>Universal TV 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=universalpremiere" data-grade-url="https://www.tvplus.com.br/programacao/universal-premiere" data-unique-id="universalpremiere-1">
+              <span>Universal Premiere</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=universalreality" data-grade-url="https://www.tvplus.com.br/programacao/universal-reality" data-unique-id="universalreality-1">
+              <span>Universal Reality</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/warnerchannel" data-grade-url="https://meuguia.tv/programacao/canal/WBT" data-unique-id="warnerchannel-1">
+              <span>Warner Channel</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=warner" data-grade-url="https://meuguia.tv/programacao/canal/WBT" data-unique-id="warnerchannel-2">
+              <span>Warner Channel 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
           </ul>
         </li>
         <!-- Esporte -->
@@ -609,44 +894,120 @@
             <i class="fas fa-chevron-down arrow"></i>
           </div>
           <ul class="channel-list">
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn" data-grade-url="https://meuguia.tv/programacao/canal/ESPN">ESPN</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn" data-grade-url="https://meuguia.tv/programacao/canal/ESP">ESPN 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn2" data-grade-url="https://meuguia.tv/programacao/canal/ES2">ESPN2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn2" data-grade-url="https://meuguia.tv/programacao/canal/ES2">ESPN2 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn3" data-grade-url="https://meuguia.tv/programacao/canal/ES3">ESPN3</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn3" data-grade-url="https://meuguia.tv/programacao/canal/ES3">ESPN3 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn4" data-grade-url="https://meuguia.tv/programacao/canal/ES4">ESPN4</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn4" data-grade-url="https://meuguia.tv/programacao/canal/ES4">ESPN4 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn5" data-grade-url="https://meuguia.tv/programacao/canal/ES5">ESPN5</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn5" data-grade-url="https://meuguia.tv/programacao/canal/ES5">ESPN5 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn6" data-grade-url="https://www.guiadetv.com/canal/espn-6">ESPN6</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%77%2E%67%64/player3/ch.php?canal=espn6" data-grade-url="https://www.guiadetv.com/canal/espn-6">ESPN6 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv" data-grade-url="https://meuguia.tv/programacao/canal/SPO">Sportv</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=sportv1" data-grade-url="https://meuguia.tv/programacao/canal/SPO">Sportv 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv2" data-grade-url="https://meuguia.tv/programacao/canal/SP2">Sportv2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=sportv2" data-grade-url="https://meuguia.tv/programacao/canal/SP2">Sportv2 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv3" data-grade-url="https://meuguia.tv/programacao/canal/SP3">Sportv3</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=sportv3" data-grade-url="https://meuguia.tv/programacao/canal/SP3">Sportv3 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv4" data-grade-url="https://tudonumclick.com/programacao-tv/sport-tv4/">Sportv4</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=sportv4" data-grade-url="https://tudonumclick.com/programacao-tv/sport-tv4/">Sportv4 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere" data-grade-url="https://meuguia.tv/programacao/canal/121">Premiere</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiereclubes" data-grade-url="https://meuguia.tv/programacao/canal/121">Premiere 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere2" data-grade-url="https://www.guiadetv.com/canal/premiere-2">Premiere2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere2" data-grade-url="https://www.guiadetv.com/canal/premiere-2">Premiere2 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere3" data-grade-url="https://www.guiadetv.com/canal/premiere-3">Premiere3</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere3" data-grade-url="https://www.guiadetv.com/canal/premiere-3">Premiere3 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere4" data-grade-url="https://www.guiadetv.com/canal/premiere-4">Premiere4</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere4" data-grade-url="https://www.guiadetv.com/canal/premiere-4">Premiere4 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere5" data-grade-url="https://www.guiadetv.com/canal/premiere-5">Premiere5</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere5" data-grade-url="https://www.guiadetv.com/canal/premiere-5">Premiere5 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere6" data-grade-url="https://www.guiadetv.com/canal/premiere-6">Premiere6</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere6" data-grade-url="https://www.guiadetv.com/canal/premiere-6">Premiere6 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere7" data-grade-url="https://www.guiadetv.com/canal/premiere-7">Premiere7</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere7" data-grade-url="https://www.guiadetv.com/canal/premiere-7">Premiere7 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere8" data-grade-url="https://mi.tv/br/canais/premiere-8-hd">Premiere8</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=premiere8" data-grade-url="https://mi.tv/br/canais/premiere-8-hd">Premiere8 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/ufcfightpass" data-grade-url="">UFC Fight Pass</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=ufcfightpass" data-grade-url="">UFC Fight Pass 2</li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn" data-grade-url="https://meuguia.tv/programacao/canal/ESPN" data-unique-id="espn-1">
+              <span>ESPN</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn" data-grade-url="https://meuguia.tv/programacao/canal/ESP" data-unique-id="espn-2">
+              <span>ESPN 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn2" data-grade-url="https://meuguia.tv/programacao/canal/ES2" data-unique-id="espn2-1">
+              <span>ESPN2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn2" data-grade-url="https://meuguia.tv/programacao/canal/ES2" data-unique-id="espn2-2">
+              <span>ESPN2 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn3" data-grade-url="https://meuguia.tv/programacao/canal/ES3" data-unique-id="espn3-1">
+              <span>ESPN3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn3" data-grade-url="https://meuguia.tv/programacao/canal/ES3" data-unique-id="espn3-2">
+              <span>ESPN3 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn4" data-grade-url="https://meuguia.tv/programacao/canal/ES4" data-unique-id="espn4-1">
+              <span>ESPN4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn4" data-grade-url="https://meuguia.tv/programacao/canal/ES4" data-unique-id="espn4-2">
+              <span>ESPN4 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn5" data-grade-url="https://meuguia.tv/programacao/canal/ES5" data-unique-id="espn5-1">
+              <span>ESPN5</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%74%76%2E%67%64/player3/ch.php?canal=espn5" data-grade-url="https://meuguia.tv/programacao/canal/ES5" data-unique-id="espn5-2">
+              <span>ESPN5 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/espn6" data-grade-url="https://www.guiadetv.com/canal/espn-6" data-unique-id="espn6-1">
+              <span>ESPN6</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%77%2E%67%64/player3/ch.php?canal=espn6" data-grade-url="https://www.guiadetv.com/canal/espn-6" data-unique-id="espn6-2">
+              <span>ESPN6 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv" data-grade-url="https://meuguia.tv/programacao/canal/SPO" data-unique-id="sportv-1">
+              <span>Sportv</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=sportv1" data-grade-url="https://meuguia.tv/programacao/canal/SPO" data-unique-id="sportv-2">
+              <span>Sportv 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv2" data-grade-url="https://meuguia.tv/programacao/canal/SP2" data-unique-id="sportv2-1">
+              <span>Sportv2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=sportv2" data-grade-url="https://meuguia.tv/programacao/canal/SP2" data-unique-id="sportv2-2">
+              <span>Sportv2 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv3" data-grade-url="https://meuguia.tv/programacao/canal/SP3" data-unique-id="sportv3-1">
+              <span>Sportv3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=sportv3" data-grade-url="https://meuguia.tv/programacao/canal/SP3" data-unique-id="sportv3-2">
+              <span>Sportv3 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/sportv4" data-grade-url="https://tudonumclick.com/programacao-tv/sport-tv4/" data-unique-id="sportv4-1">
+              <span>Sportv4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=sportv4" data-grade-url="https://tudonumclick.com/programacao-tv/sport-tv4/" data-unique-id="sportv4-2">
+              <span>Sportv4 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere" data-grade-url="https://meuguia.tv/programacao/canal/121" data-unique-id="premiere-1">
+              <span>Premiere</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiereclubes" data-grade-url="https://meuguia.tv/programacao/canal/121" data-unique-id="premiere-2">
+              <span>Premiere 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere2" data-grade-url="https://www.guiadetv.com/canal/premiere-2" data-unique-id="premiere2-1">
+              <span>Premiere2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere2" data-grade-url="https://www.guiadetv.com/canal/premiere-2" data-unique-id="premiere2-2">
+              <span>Premiere2 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere3" data-grade-url="https://www.guiadetv.com/canal/premiere-3" data-unique-id="premiere3-1">
+              <span>Premiere3</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere3" data-grade-url="https://www.guiadetv.com/canal/premiere-3" data-unique-id="premiere3-2">
+              <span>Premiere3 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere4" data-grade-url="https://www.guiadetv.com/canal/premiere-4" data-unique-id="premiere4-1">
+              <span>Premiere4</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere4" data-grade-url="https://www.guiadetv.com/canal/premiere-4" data-unique-id="premiere4-2">
+              <span>Premiere4 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere5" data-grade-url="https://www.guiadetv.com/canal/premiere-5" data-unique-id="premiere5-1">
+              <span>Premiere5</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere5" data-grade-url="https://www.guiadetv.com/canal/premiere-5" data-unique-id="premiere5-2">
+              <span>Premiere5 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere6" data-grade-url="https://www.guiadetv.com/canal/premiere-6" data-unique-id="premiere6-1">
+              <span>Premiere6</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere6" data-grade-url="https://www.guiadetv.com/canal/premiere-6" data-unique-id="premiere6-2">
+              <span>Premiere6 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere7" data-grade-url="https://www.guiadetv.com/canal/premiere-7" data-unique-id="premiere7-1">
+              <span>Premiere7</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=premiere7" data-grade-url="https://www.guiadetv.com/canal/premiere-7" data-unique-id="premiere7-2">
+              <span>Premiere7 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/premiere8" data-grade-url="https://mi.tv/br/canais/premiere-8-hd" data-unique-id="premiere8-1">
+              <span>Premiere8</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=premiere8" data-grade-url="https://mi.tv/br/canais/premiere-8-hd" data-unique-id="premiere8-2">
+              <span>Premiere8 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/ufcfightpass" data-grade-url="" data-unique-id="ufcfightpass-1">
+              <span>UFC Fight Pass</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=ufcfightpass" data-grade-url="" data-unique-id="ufcfightpass-2">
+              <span>UFC Fight Pass 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
           </ul>
         </li>
         <!-- Infantil -->
@@ -657,15 +1018,33 @@
             <i class="fas fa-chevron-down arrow"></i>
           </div>
           <ul class="channel-list">
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/discoverykids" data-grade-url="https://meuguia.tv/programacao/canal/DIK">Discovery Kids</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=discoverykids" data-grade-url="https://meuguia.tv/programacao/canal/DIK">Discovery Kids 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/cartoonnetwork" data-grade-url="https://meuguia.tv/programacao/canal/CAR">Cartoon Network</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=cartoon" data-grade-url="https://meuguia.tv/programacao/canal/CAR">Cartoon Network 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/cartoonito" data-grade-url="https://www.guiadetv.com/canal/cartoonito">Cartoonito</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=cartoonito" data-grade-url="https://www.guiadetv.com/canal/cartoonito">Cartoonito 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/nickelodeon" data-grade-url="https://meuguia.tv/programacao/canal/NIC">Nickelodeon</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=nick" data-grade-url="https://meuguia.tv/programacao/canal/NIC">Nickelodeon 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=gloob" data-grade-url="https://meuguia.tv/programacao/canal/GOB">Gloob</li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/discoverykids" data-grade-url="https://meuguia.tv/programacao/canal/DIK" data-unique-id="discoverykids-1">
+              <span>Discovery Kids</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=discoverykids" data-grade-url="https://meuguia.tv/programacao/canal/DIK" data-unique-id="discoverykids-2">
+              <span>Discovery Kids 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/cartoonnetwork" data-grade-url="https://meuguia.tv/programacao/canal/CAR" data-unique-id="cartoonnetwork-1">
+              <span>Cartoon Network</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=cartoon" data-grade-url="https://meuguia.tv/programacao/canal/CAR" data-unique-id="cartoonnetwork-2">
+              <span>Cartoon Network 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/cartoonito" data-grade-url="https://www.guiadetv.com/canal/cartoonito" data-unique-id="cartoonito-1">
+              <span>Cartoonito</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=cartoonito" data-grade-url="https://www.guiadetv.com/canal/cartoonito" data-unique-id="cartoonito-2">
+              <span>Cartoonito 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/nickelodeon" data-grade-url="https://meuguia.tv/programacao/canal/NIC" data-unique-id="nickelodeon-1">
+              <span>Nickelodeon</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=nick" data-grade-url="https://meuguia.tv/programacao/canal/NIC" data-unique-id="nickelodeon-2">
+              <span>Nickelodeon 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=gloob" data-grade-url="https://meuguia.tv/programacao/canal/GOB" data-unique-id="gloob-1">
+              <span>Gloob</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
           </ul>
         </li>
         <!-- Variedades -->
@@ -676,16 +1055,36 @@
             <i class="fas fa-chevron-down arrow"></i>
           </div>
           <ul class="channel-list">
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/multishow" data-grade-url="https://meuguia.tv/programacao/canal/MSW">Multishow</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=multishow" data-grade-url="https://meuguia.tv/programacao/canal/MSW">Multishow 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/gnt" data-grade-url="https://meuguia.tv/programacao/canal/GNT">GNT</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=gnt" data-grade-url="https://meuguia.tv/programacao/canal/GNT">GNT 2</li>
-            <li class="channel-item" data-video-url="https://embedtv-3.icu/viva" data-grade-url="https://meuguia.tv/programacao/canal/VIV">Viva</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=viva" data-grade-url="https://meuguia.tv/programacao/canal/VIV">Viva 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=bis" data-grade-url="https://meuguia.tv/programacao/canal/MSH">Bis</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=bis" data-grade-url="https://meuguia.tv/programacao/canal/MSH">Bis 2</li>
-            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=canalbrasil" data-grade-url="https://meuguia.tv/programacao/canal/CBR">Canal Brasil</li>
-            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=canalbrasil" data-grade-url="https://meuguia.tv/programacao/canal/CBR">Canal Brasil 2</li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/multishow" data-grade-url="https://meuguia.tv/programacao/canal/MSW" data-unique-id="multishow-1">
+              <span>Multishow</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=multishow" data-grade-url="https://meuguia.tv/programacao/canal/MSW" data-unique-id="multishow-2">
+              <span>Multishow 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/gnt" data-grade-url="https://meuguia.tv/programacao/canal/GNT" data-unique-id="gnt-1">
+              <span>GNT</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=gnt" data-grade-url="https://meuguia.tv/programacao/canal/GNT" data-unique-id="gnt-2">
+              <span>GNT 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://embedtv-3.icu/viva" data-grade-url="https://meuguia.tv/programacao/canal/VIV" data-unique-id="viva-1">
+              <span>Viva</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=viva" data-grade-url="https://meuguia.tv/programacao/canal/VIV" data-unique-id="viva-2">
+              <span>Viva 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=bis" data-grade-url="https://meuguia.tv/programacao/canal/MSH" data-unique-id="bis-1">
+              <span>Bis</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=bis" data-grade-url="https://meuguia.tv/programacao/canal/MSH" data-unique-id="bis-2">
+              <span>Bis 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://%72%65%64%65%63%61%6E%61%69%73%7476%2E%67%64/player3/ch.php?canal=canalbrasil" data-grade-url="https://meuguia.tv/programacao/canal/CBR" data-unique-id="canalbrasil-1">
+              <span>Canal Brasil</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
+            <li class="channel-item" data-video-url="https://reidoscanais.life/embed/?id=canalbrasil" data-grade-url="https://meuguia.tv/programacao/canal/CBR" data-unique-id="canalbrasil-2">
+              <span>Canal Brasil 2</span> <i class="far fa-star favorite-toggle"></i>
+            </li>
           </ul>
         </li>
         <!-- Filmes, Séries e Animes (WarezCDN) -->
@@ -696,8 +1095,8 @@
                 <i class="fas fa-external-link-alt external-icon"></i>
             </div>
             <ul class="channel-list">
-                <li class="channel-item" data-warez-url="https://warezcdn.link/conteudo">
-                    Acessar Catálogo
+                <li class="channel-item" data-warez-url="https://warezcdn.link/conteudo" data-unique-id="warezcdn-access">
+                    <span>Acessar Catálogo</span>
                 </li>
             </ul>
         </li>
@@ -714,7 +1113,7 @@
         <!-- Visão de Canais de TV (padrão) -->
         <div id="tvChannelsView" class="content-view">
           <div class="player-container">
-            <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; fullscreen" scrolling="no"></iframe>
+            <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
             <div class="loader" id="playerLoader"></div>
             <div class="no-video-message" id="noVideoMessage">
                 Bem-vindo à TV Marinho! <br>
@@ -728,7 +1127,7 @@
         <div id="warezCdnView" class="content-view">
             <!-- Botão de voltar para o catálogo WarezCDN -->
             <button id="backToWarezCdnCatalog" class="warez-back-button" style="display: none;">← Voltar para o Catálogo</button>
-            <iframe id="warezCdnContentIframe" src="" allowfullscreen allow="autoplay; fullscreen" scrolling="no"></iframe>
+            <iframe id="warezCdnContentIframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
             <div class="loader" id="warezCdnLoader"></div>
             <div class="no-video-message" id="warezCdnLoadingMessage">
                 Carregando catálogo WarezCDN...
@@ -739,9 +1138,14 @@
   </div>
 
   <script>
-    // Referências a todos os novos elementos e aos existentes
+    // Referências a todos os elementos
+    const searchInput = document.getElementById('searchInput');
     const categoryHeaders = document.querySelectorAll('.category-header');
-    const channelItems = document.querySelectorAll('.channel-item');
+    const allChannelItems = document.querySelectorAll('.channel-item'); // All channel items in static HTML
+    const favoritesCategory = document.getElementById('favoritesCategory');
+    const favoritesList = document.getElementById('favoritesList');
+    const noFavoritesMessage = favoritesList.querySelector('.no-favorites-message');
+
     const videoPlayer = document.getElementById('videoPlayer');
     const gradeIframe = document.getElementById('gradeIframe');
     const playerLoader = document.getElementById('playerLoader');
@@ -754,7 +1158,7 @@
     const backToWarezCdnCatalog = document.getElementById('backToWarezCdnCatalog');
 
     let currentGradeRefreshInterval = null;
-    let activeChannelItem = null; // Para controlar o item ativo na navegação
+    let activeChannelUniqueId = null; // Para controlar o item ativo na navegação
 
     // --- Funções Auxiliares ---
     function showPlayerLoader() {
@@ -772,32 +1176,45 @@
     function showNoPlayerMessage(message = 'Bem-vindo à TV Marinho! ', subMessage = 'Selecione um canal na barra lateral para começar a assistir.') {
         videoPlayer.style.display = 'none';
         playerLoader.style.display = 'none';
-        noVideoMessage.style.display = 'block';
+        noVideoMessage.style.display = 'flex';
+        noVideoMessage.style.flexDirection = 'column';
+        noVideoMessage.style.justifyContent = 'center';
+        noVideoMessage.style.alignItems = 'center';
         noVideoMessage.innerHTML = `${message}<br><span>${subMessage}</span>`;
-        gradeIframe.src = ''; // Limpa a grade quando nenhum vídeo de TV está selecionado
+        gradeIframe.src = '';
         if (currentGradeRefreshInterval) {
             clearInterval(currentGradeRefreshInterval);
             currentGradeRefreshInterval = null;
         }
     }
 
-    function setActiveChannel(item) {
-        if (activeChannelItem) {
-            activeChannelItem.classList.remove('active');
+    function setActiveChannel(uniqueId) {
+        // Remove 'active' class from all channel items, including cloned favorites
+        document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+
+        // Add 'active' class to the selected item (if it exists)
+        if (uniqueId) {
+            document.querySelectorAll(`[data-unique-id="${uniqueId}"]`).forEach(item => {
+                item.classList.add('active');
+            });
+            // Ensure the parent category is expanded for the active channel
+            const selectedItem = document.querySelector(`[data-unique-id="${uniqueId}"]`);
+            if (selectedItem) {
+                const parentCategory = selectedItem.closest('.category-item');
+                if (parentCategory && !parentCategory.classList.contains('expanded')) {
+                    toggleCategory(parentCategory, true); // Force expand the category
+                }
+            }
         }
-        activeChannelItem = item;
-        if (activeChannelItem) {
-            activeChannelItem.classList.add('active');
-        }
+        activeChannelUniqueId = uniqueId;
     }
 
     // --- Gerenciamento da Visibilidade do Conteúdo (Canais de TV vs WarezCDN) ---
-    function showTvChannelsContent(videoUrl, gradeUrl, channelName = '') {
-        // Oculta todas as views primeiro
+    function showTvChannelsContent(videoUrl, gradeUrl, uniqueId) {
         document.querySelectorAll('.content-view').forEach(view => {
             view.style.display = 'none';
         });
-        tvChannelsView.style.display = 'flex'; // Exibe a visão de Canais de TV
+        tvChannelsView.style.display = 'flex';
 
         if (videoUrl) {
             showPlayerLoader();
@@ -815,16 +1232,13 @@
 
         if (gradeUrl) {
             gradeIframe.src = gradeUrl;
-            // Limpa qualquer intervalo existente antes de definir um novo
             if (currentGradeRefreshInterval) {
                 clearInterval(currentGradeRefreshInterval);
                 currentGradeRefreshInterval = null;
             }
-            // Define novo intervalo para a grade atual
             currentGradeRefreshInterval = setInterval(() => {
-                console.log('Atualizando grade para:', channelName || videoUrl);
-                gradeIframe.src = gradeUrl; // Recarrega o iframe da grade
-            }, 300000); // Atualiza a cada 5 minutos (300000 ms)
+                gradeIframe.src = gradeUrl;
+            }, 300000);
         } else {
             gradeIframe.src = '';
             if (currentGradeRefreshInterval) {
@@ -832,36 +1246,36 @@
                 currentGradeRefreshInterval = null;
             }
         }
+        setActiveChannel(uniqueId);
+        resetSearchAndCollapseCategories(); // Reset search and collapse categories after selection
     }
 
-    function showWarezCdnContent(url) {
-        // Oculta todas as outras views primeiro
+    function showWarezCdnContent(url, uniqueId = 'warezcdn-access') {
         document.querySelectorAll('.content-view').forEach(view => {
             view.style.display = 'none';
         });
-        warezCdnView.style.display = 'flex'; // Exibe a visão de navegação do WarezCDN
+        warezCdnView.style.display = 'flex';
 
-        warezCdnLoader.style.display = 'block'; // Mostra o loader para o iframe de navegação
-        warezCdnContentIframe.style.display = 'none'; // Esconde o iframe de navegação inicialmente
+        warezCdnLoader.style.display = 'block';
+        warezCdnContentIframe.style.display = 'none';
         warezCdnLoadingMessage.style.display = 'block';
         warezCdnLoadingMessage.textContent = 'Carregando catálogo WarezCDN...'; 
 
-        warezCdnContentIframe.src = url; // Carrega a URL do catálogo
+        warezCdnContentIframe.src = url;
 
         warezCdnContentIframe.onload = () => {
             warezCdnLoader.style.display = 'none';
             warezCdnContentIframe.style.display = 'block';
             warezCdnLoadingMessage.style.display = 'none';
             
-            // Lógica para mostrar/esconder o botão "Voltar"
-            const currentIframeSrc = warezCdnContentIframe.contentWindow.location.href; // Melhorar a detecção de URL interna
+            const currentIframeSrc = warezCdnContentIframe.contentWindow.location.href;
             const isPlayerPage = currentIframeSrc.startsWith('https://embed.warezcdn.link/filme/') ||
                                  currentIframeSrc.startsWith('https://embed.warezcdn.link/serie/');
 
             if (isPlayerPage) {
-                backToWarezCdnCatalog.style.display = 'block'; // Mostra o botão
+                backToWarezCdnCatalog.style.display = 'block';
             } else {
-                backToWarezCdnCatalog.style.display = 'none'; // Esconde o botão (se for o catálogo)
+                backToWarezCdnCatalog.style.display = 'none';
             }
         };
         warezCdnContentIframe.onerror = () => {
@@ -869,23 +1283,116 @@
             warezCdnContentIframe.style.display = 'none';
             warezCdnLoadingMessage.textContent = 'Não foi possível carregar o conteúdo do WarezCDN. Verifique a URL ou sua conexão.';
             warezCdnLoadingMessage.style.display = 'block';
-            backToWarezCdnCatalog.style.display = 'none'; // Esconde o botão em caso de erro
+            backToWarezCdnCatalog.style.display = 'none';
         };
 
-        // Limpa qualquer intervalo de atualização da grade de TV existente
         if (currentGradeRefreshInterval) {
             clearInterval(currentGradeRefreshInterval);
             currentGradeRefreshInterval = null;
         }
+        setActiveChannel(uniqueId);
+        resetSearchAndCollapseCategories(); // Reset search and collapse categories after selection
     }
 
-    // --- Event Listeners ---
+    // --- Favorites Management ---
+    function getFavorites() {
+        try {
+            const favorites = JSON.parse(localStorage.getItem('tvMarinhoFavorites')) || [];
+            return favorites;
+        } catch (e) {
+            console.error('Error parsing favorites from localStorage', e);
+            return [];
+        }
+    }
 
-    // Toggle categories: expand/collapse functionality
-    categoryHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const categoryItem = header.closest('.category-item');
+    function saveFavorites(favorites) {
+        try {
+            localStorage.setItem('tvMarinhoFavorites', JSON.stringify(favorites));
+        } catch (e) {
+            console.error('Error saving favorites to localStorage', e);
+        }
+    }
+
+    function updateFavoriteIcon(uniqueId, isFavorite) {
+        document.querySelectorAll(`[data-unique-id="${uniqueId}"] .favorite-toggle`).forEach(icon => {
+            if (isFavorite) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        });
+    }
+
+    function addFavorite(itemData) {
+        let favorites = getFavorites();
+        if (!favorites.some(fav => fav.uniqueId === itemData.uniqueId)) {
+            favorites.push(itemData);
+            saveFavorites(favorites);
+            updateFavoriteIcon(itemData.uniqueId, true);
+            renderFavoritesList();
+        }
+    }
+
+    function removeFavorite(uniqueId) {
+        let favorites = getFavorites();
+        favorites = favorites.filter(fav => fav.uniqueId !== uniqueId);
+        saveFavorites(favorites);
+        updateFavoriteIcon(uniqueId, false);
+        renderFavoritesList();
+    }
+
+    function renderFavoritesList() {
+        const favorites = getFavorites();
+        favoritesList.innerHTML = ''; // Clear current list
+
+        if (favorites.length === 0) {
+            noFavoritesMessage.style.display = 'flex';
+            favoritesList.appendChild(noFavoritesMessage);
+        } else {
+            noFavoritesMessage.style.display = 'none';
+            favorites.forEach(fav => {
+                const li = document.createElement('li');
+                li.className = 'channel-item';
+                li.dataset.videoUrl = fav.videoUrl;
+                li.dataset.gradeUrl = fav.gradeUrl;
+                li.dataset.uniqueId = fav.uniqueId;
+                if (fav.warezUrl) li.dataset.warezUrl = fav.warezUrl;
+
+                const channelNameSpan = document.createElement('span');
+                channelNameSpan.textContent = fav.name;
+                li.appendChild(channelNameSpan);
+
+                const favoriteIcon = document.createElement('i');
+                favoriteIcon.className = 'fas fa-star favorite-toggle'; // Always 'fas' for favorites in this list
+                favoriteIcon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFavorite(fav.uniqueId);
+                });
+                li.appendChild(favoriteIcon);
+
+                li.addEventListener('click', () => {
+                    if (fav.warezUrl) {
+                        showWarezCdnContent(fav.warezUrl, fav.uniqueId);
+                    } else {
+                        showTvChannelsContent(fav.videoUrl, fav.gradeUrl, fav.uniqueId);
+                    }
+                });
+                favoritesList.appendChild(li);
+            });
+        }
+        if (activeChannelUniqueId) {
+            setActiveChannel(activeChannelUniqueId);
+        }
+        // Favorites category will only expand if explicitly opened or by resetSearchAndCollapseCategories
+    }
+
+    // --- Event Listeners Initialization ---
+
+    function toggleCategory(categoryItem, forceExpand = false) {
         const channelList = categoryItem.querySelector('.channel-list');
+        const isExpanded = categoryItem.classList.contains('expanded');
 
         // Close other expanded categories
         document.querySelectorAll('.category-item.expanded').forEach(item => {
@@ -895,51 +1402,183 @@
             }
         });
 
-        // Toggle current category
-        categoryItem.classList.toggle('expanded');
-        if (categoryItem.classList.contains('expanded')) {
-          // Set height for smooth transition, ensuring it covers all content
-          channelList.style.maxHeight = channelList.scrollHeight + 'px'; 
+        if (forceExpand || !isExpanded) {
+            categoryItem.classList.add('expanded');
+            channelList.style.maxHeight = channelList.scrollHeight + 'px'; 
         } else {
-          channelList.style.maxHeight = 0;
+            categoryItem.classList.remove('expanded');
+            channelList.style.maxHeight = 0;
         }
+    }
+
+    categoryHeaders.forEach(header => {
+      header.addEventListener('click', (event) => {
+        const categoryItem = header.closest('.category-item');
+        
+        // Handle WarezCDN category special behavior
+        if (categoryItem.classList.contains('warez-cdn-category') && !event.target.classList.contains('arrow')) {
+            const warezLink = categoryItem.querySelector('.channel-item').dataset.warezUrl;
+            if (warezLink) {
+                showWarezCdnContent(warezLink, 'warezcdn-access');
+                // Ensure other categories are collapsed, and this one is visually expanded (without the channel list dropdown)
+                document.querySelectorAll('.category-item.expanded').forEach(item => {
+                    if (item !== categoryItem) {
+                        item.classList.remove('expanded');
+                        item.querySelector('.channel-list').style.maxHeight = 0;
+                    }
+                });
+                categoryItem.classList.add('expanded'); // Visually mark as expanded
+                return;
+            }
+        }
+        toggleCategory(categoryItem);
       });
     });
 
-    // Load channels/warezCDN content when a channel item is clicked
-    channelItems.forEach(item => {
-      item.addEventListener('click', () => {
-        setActiveChannel(item); // Set this item as active in the navigation
+    allChannelItems.forEach(item => {
+        const uniqueId = item.dataset.uniqueId;
+        const favoriteToggle = item.querySelector('.favorite-toggle');
 
-        const videoUrl = item.dataset.videoUrl;
-        const gradeUrl = item.dataset.gradeUrl;
-        const warezUrl = item.dataset.warezUrl; // New attribute for WarezCDN
-
-        const channelName = item.textContent; // Get channel name for console log/debug
-
-        if (warezUrl) {
-            showWarezCdnContent(warezUrl);
-        } else if (videoUrl) {
-            showTvChannelsContent(videoUrl, gradeUrl, channelName);
-        } else {
-            showNoPlayerMessage('Nenhum vídeo disponível para este item.', 'Por favor, selecione outro.');
+        if (favoriteToggle) {
+            favoriteToggle.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent channel selection when star is clicked
+                if (favoriteToggle.classList.contains('fas')) {
+                    removeFavorite(uniqueId);
+                } else {
+                    const itemData = {
+                        name: item.querySelector('span:first-of-type') ? item.querySelector('span:first-of-type').textContent : item.textContent,
+                        videoUrl: item.dataset.videoUrl || null,
+                        gradeUrl: item.dataset.gradeUrl || null,
+                        warezUrl: item.dataset.warezUrl || null,
+                        uniqueId: uniqueId
+                    };
+                    addFavorite(itemData);
+                }
+            });
         }
-      });
+
+        item.addEventListener('click', (e) => {
+            // Ensure click is not on the star icon (which has its own event listener)
+            if (!e.target.classList.contains('favorite-toggle')) {
+                const videoUrl = item.dataset.videoUrl;
+                const gradeUrl = item.dataset.gradeUrl;
+                const warezUrl = item.dataset.warezUrl;
+                
+                if (warezUrl) {
+                    showWarezCdnContent(warezUrl, uniqueId);
+                } else if (videoUrl) {
+                    showTvChannelsContent(videoUrl, gradeUrl, uniqueId);
+                } else {
+                    showNoPlayerMessage('Nenhum vídeo disponível para este item.', 'Por favor, selecione outro.');
+                }
+            }
+        });
     });
+
+    // Search functionality
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        allChannelItems.forEach(item => {
+            const channelNameSpan = item.querySelector('span:first-of-type');
+            const channelNameText = channelNameSpan ? channelNameSpan.textContent.toLowerCase() : item.textContent.toLowerCase();
+            const parentCategory = item.closest('.category-item');
+
+            // Hide the special "no favorites" message during search
+            if (item.classList.contains('no-favorites-message')) {
+                item.style.display = 'none';
+                return;
+            }
+
+            if (searchTerm.length > 0 && channelNameText.includes(searchTerm)) {
+                item.style.display = 'flex';
+                if (parentCategory) {
+                    parentCategory.style.display = 'block';
+                    toggleCategory(parentCategory, true); // Force expand category
+                }
+            } else if (searchTerm.length === 0) {
+                item.style.display = 'flex'; // Show all if search is empty
+                if (parentCategory && parentCategory !== favoritesCategory) { // Only collapse non-favorite categories
+                    toggleCategory(parentCategory, false); // Collapse if search is cleared
+                }
+            } else {
+                item.style.display = 'none'; // Hide non-matching item
+            }
+        });
+
+        // Manage category visibility based on search results
+        document.querySelectorAll('.category-item').forEach(categoryItem => {
+            if (categoryItem.id === 'favoritesCategory' && searchTerm.length > 0) {
+                categoryItem.style.display = 'none'; // Hide favorites category when searching
+                toggleCategory(categoryItem, false); // Ensure it's collapsed too
+                return;
+            }
+
+            const visibleChannelsInList = Array.from(categoryItem.querySelectorAll('.channel-item'))
+                                            .filter(item => item.style.display !== 'none' && !item.classList.contains('no-favorites-message'));
+            
+            if (visibleChannelsInList.length === 0 && searchTerm.length > 0) {
+                categoryItem.style.display = 'none';
+                toggleCategory(categoryItem, false); // Ensure it's collapsed
+            } else {
+                categoryItem.style.display = 'block';
+                // If search is cleared, ensure categories are collapsed unless favorites are showing
+                if (searchTerm.length === 0 && categoryItem !== favoritesCategory) {
+                    toggleCategory(categoryItem, false);
+                } else if (searchTerm.length > 0) {
+                    toggleCategory(categoryItem, true); // Keep matching categories expanded during search
+                }
+            }
+        });
+
+        // Re-render favorites list to update their state if search cleared or active
+        if (searchTerm.length === 0) {
+            renderFavoritesList();
+        }
+    });
+
+    // Function to reset search and collapse categories
+    function resetSearchAndCollapseCategories() {
+        searchInput.value = ''; // Clear search input
+        searchInput.dispatchEvent(new Event('input')); // Trigger input event to re-filter
+
+        // Collapse all categories except favorites (if populated)
+        document.querySelectorAll('.category-item').forEach(categoryItem => {
+            if (categoryItem.id === 'favoritesCategory') {
+                if (getFavorites().length > 0) {
+                    toggleCategory(categoryItem, true); // Expand favorites if there are items
+                } else {
+                    toggleCategory(categoryItem, false); // Collapse if no favorites
+                }
+            } else {
+                toggleCategory(categoryItem, false); // Collapse all other categories
+            }
+        });
+    }
 
     // Event listener for "Back to Catalog" button in WarezCDN view
     backToWarezCdnCatalog.addEventListener('click', () => {
-        showWarezCdnContent('https://warezcdn.link/conteudo'); // Recarrega a página do catálogo
-        setActiveChannel(null); // Clear active state from navigation items
+        showWarezCdnContent('https://warezcdn.link/conteudo', 'warezcdn-access');
     });
 
-    // Initial state on page load: show welcome message
+    // Initial state on page load: show welcome message, load favorites and collapse all categories
     document.addEventListener('DOMContentLoaded', () => {
-        showNoPlayerMessage(); // Show welcome message on load
-        // Optionally, expand the first category by default
-        // if (categoryHeaders.length > 0) {
-        //     categoryHeaders[0].click(); 
-        // }
+        showNoPlayerMessage();
+        renderFavoritesList(); // Load and render favorites from localStorage
+        
+        // Initialize favorite icons based on saved favorites
+        const savedFavorites = getFavorites();
+        allChannelItems.forEach(item => {
+            const uniqueId = item.dataset.uniqueId;
+            if (savedFavorites.some(fav => fav.uniqueId === uniqueId)) {
+                updateFavoriteIcon(uniqueId, true);
+            }
+        });
+
+        // Ensure all categories start collapsed on load
+        document.querySelectorAll('.category-item').forEach(categoryItem => {
+            toggleCategory(categoryItem, false); // Force collapse
+        });
     });
   </script>
 </body>
